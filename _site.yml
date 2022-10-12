@@ -7,6 +7,11 @@ navbar:
   #source_url: https://github.com/rstudio/distill
   left:
     - text: "Profesor"
+      menu:
+        - text: "Pablo Tiscornia"
+          href: about_pablotiscornia.html
+        - text: "Andre Gómes Vargas"
+          href: about_andreagomezvargas.html
       href: about.html
     - text: "Programa"
       href: programa.html
@@ -23,7 +28,7 @@ navbar:
           href: a_diapositivas/02_tidyverse.html
         - text: "Modulo 03 - Herramientas para la vizualizacion de datos"
           href: a_diapositivas/03_visualizacion.html
-        - text: "Extra - Informes"
+        - text: "Módulo 04 - Informes con Rmarkdown"
           href: a_diapositivas/04_informes.html
     - text: "Ejercitacion"
       menu:

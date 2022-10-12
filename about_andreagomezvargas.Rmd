@@ -1,0 +1,19 @@
+---
+title: "Andre Gómez Vargas"
+image: ""
+links:
+  - label: Rpubs
+    url: ""
+  - label: LinkedIn
+    url: ""
+  - label: Twitter
+    url: ""
+  - label: GitHub
+    url: ""
+  - label: Email
+    url: ""
+output:
+  postcards::jolla
+---
+ 
+bla bla bla

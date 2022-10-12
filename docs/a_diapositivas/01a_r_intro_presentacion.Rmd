@@ -132,19 +132,6 @@ En R la unidad mínima para trabajar son los _valores_:
 
 
 ---
-# Valores
-
-R permite realizar un sinfin de operaciones con estos valores, por ejemplo, operaciones matemáticas como _sumar_, _restar_, _multiplicar_ o _dividir_:
-
-
-```{r echo=FALSE}
-knitr::include_app("https://pablot.shinyapps.io/ejercicio_xaringan/")
-```
-
-
-
-
----
 class: inverse, center, middle
 
 # VECTORES
@@ -210,7 +197,7 @@ class: inverse, center, middle
 
 ```{r echo=FALSE, out.height = 300, out.width = 600, fig.align='center'}
 #knitr::include_graphics(here("img", "funcion_desc.png"))
-knitr::include_graphics("../img/funcion_desc.png")
+knitr::include_graphics(here::here("img/funcion_desc.png"))
 ```
 
 ---
@@ -316,7 +303,7 @@ class: inverse, center, middle
 
 ```{r echo=FALSE, out.height=400, out.width= 700, fig.align='center'}
 #knitr::include_graphics(here("img", "objeto_nuevo.png"))
-knitr::include_graphics("../img/objeto_nuevo.png")
+knitr::include_graphics(here::here("img/objeto_nuevo.png"))
 ```
 
 
@@ -355,7 +342,7 @@ nombre_y_apellido <- c("D'artanian estrujillo", "Rigoberta manchuria", "Menganit
 
 ```{r echo=FALSE, fig.align='center'}
 #knitr::include_graphics(here("img", "objeto_ambiente.png"))
-knitr::include_graphics("../img/objeto_ambiente.png")
+knitr::include_graphics(here::here("img/objeto_ambiente.png"))
 ```
 
 
@@ -448,7 +435,7 @@ El elemento `data.frame` es lo que conocemos como una _base de datos_: Filas (ca
 
 ```{r echo=FALSE, out.height=400, out.width= 700, fig.align='center'}
 #knitr::include_graphics(here("img", "data_frames.png"))
-knitr::include_graphics("../img/data_frames.png")
+knitr::include_graphics(here::here("img/data_frames.png"))
 ```
 
 
@@ -567,7 +554,7 @@ base_personas[3,2]
 
 ```{r echo=FALSE, out.height=350, out.width= 400, fig.align='center'}
 #knitr::include_graphics(here("img", "base_coord_1.png"))
-knitr::include_graphics("../img/base_coord_1.png")
+knitr::include_graphics(here::here("img/base_coord_1.png"))
 ```
 
 ---

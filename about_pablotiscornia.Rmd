@@ -1,6 +1,6 @@
 ---
 title: "Pablo Tiscornia"
-image: "img/perfil_png.jpg"
+image: "img/perfil.jpeg"
 links:
   - label: Rpubs
     url: "https://rpubs.com/pablotisco"
