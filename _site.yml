@@ -10,7 +10,7 @@ navbar:
       menu:
         - text: "Pablo Tiscornia"
           href: about_pablotiscornia.html
-        - text: "Andre Gómes Vargas"
+        - text: "Andrea Gómez Vargas"
           href: about_andreagomezvargas.html
       href: about.html
     - text: "Programa"
