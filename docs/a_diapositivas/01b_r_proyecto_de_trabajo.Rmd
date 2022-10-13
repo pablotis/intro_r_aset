@@ -15,43 +15,67 @@ output:
 ---
 
 
-```{r include=FALSE}
-options(tibble.width = NULL)
-```
-
-
-```{r xaringanExtra-clipboard, eval=FALSE, include=FALSE}
-htmltools::tagList(
- xaringanExtra::use_clipboard(
-   button_text = "<i class=/"fa fa-clipboard/"></i>",
-   success_text = "<i class=/"fa fa-check/" style=/"color: #90BE6D/"></i>",
- ),
- rmarkdown::html_dependency_font_awesome()
-)
-```
-
-```{r xaringan-extra-styles, echo=FALSE}
-##These are the defaults
-xaringanExtra::use_extra_styles(
-  hover_code_line = TRUE,         #<<
-  mute_unhighlighted_code = TRUE
-)
-```
-
-```{r xaringanExtra-scribble, echo=FALSE}
-#xaringanExtra::use_scribble()
-```
-
-
-
 <style type="text/css">
+
 .remark-slide-content {
     font-size: 25px;
     padding: 1em 1em 1em 1em;
 }
-</style>
+
+```{css, eval = TRUE, echo = FALSE}
+
+.remark-code{
+  line-height: 1.5; font-size: 80%
+}
+
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+```
 
 
+```{r xaringan-scribble, echo=FALSE}
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##                                  PIZARRA                                 ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+xaringanExtra::use_scribble()
+```
+
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##                                  cLIPBOARD                               ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-Copiar código\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+
+```{r xaringan-fit-screen, echo=FALSE}
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##                          PRESENTACION VS RSTUDIO                         ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+xaringanExtra::use_fit_screen()
+```
+
+
+```{r xaringan-extra-styles, echo = FALSE}
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##                          ESTILOS EXTRA -RESALTADO-                       ----
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
 
 ```{r, include = F}
 # This is the recommended set up for flipbooks
@@ -75,66 +99,191 @@ library(here)
 
 <br><br>
 
-## ✔️ Paquetes
 
-## ✔️ Lectura / escritura de archivos
+## ✔️ Paquetes y funciones
 
-## ✔️ Proyectos
+## ✔️ Paquete de paquetes: el mundo de `{tidyverse}`
 
+
+---
+
+# Paquetes  
+
+## ¿Qué son?
+
+#### ✔️ Un conjunto funciones, pero también bases de datos y objetos de R en general.
+
+--
+
+## ¿Para qué nos sirven?   
+
+#### ✔️ Ayudan a incorporar funcionalidades al lenguaje para resolver nuevos problemas o alternativas a viejas soluciones
 
 
 
 ---
-class: inverse, middle, center
+class: middle, center, inverse
 
-
-# Paquetes
-
-<html>  <div style='float:left'></div>  <hr color='#EB811B' size=1px width=1125px></html>
-
+background-image: url(img/R1.PNG)
+background-size: contain
 
 ---
-# Paquetes
+class: middle, center, inverse
 
-### Con R podemos aumentar las funciones para realizar operaciones a través de los **paquetes**.
+background-image: url(img/R2.PNG)
+background-size: contain
 
-```{r echo=FALSE, out.height = 500, out.width = 800}
-#knitr::include_graphics(here("img", "R5.PNG"))
-knitr::include_graphics("../img/R5.PNG")
+---
+class: middle, center, inverse
+
+background-image: url(img/R3.PNG)
+background-size: contain
+
+---
+class: middle, center, inverse
+
+background-image: url(img/R4.PNG)
+background-size: contain
+
+---
+class: middle, center, inverse
+
+background-image: url(img/R5.PNG)
+background-size: contain
+  
+---
+
+#Paquetes    
+
+## INSTALACIÓN
+
+<br>
+
+- Podemos descargarlos e instalarlos con el siguiente comando: 
+
+```r
+ `install.packages("nombre_del_paquete")`
 ```
 
-
+- Sólo es necesario instalar el paquete una vez por computadora.
 
 ---
-# Paquetes
 
+#Paquetes  
+
+## INVOCACIÓN
+
+<br>
 
 .pull-left[
 
-
-### Para poder usar un paquete, primero debemos __instalarlo__:
+- Una vez instalado, cada vez que abramos una nueva sesión de R y querramos utilizar el paquete debemos **cargarlo al ambiente de trabajo** mediante la función:    
 
 ```r
-
-`install.packages("nombre_del_paquete")`
-
+ `library(nombre_del_paquete)`
 ```
-
 ]
 
---
+.pull-right[
+
+```{r echo=FALSE, eval=TRUE, out.width= '500px'}
+
+knitr::include_graphics(here::here("img/invocacion.gif"))
+
+```
+]
+
+
+---
+class: center, middle, inverse
+
+# [Tidyverse](https://www.tidyverse.org/)
+
+
+---
+# Tidyverse
+
+.pull-left[
+#### `Tidyverse` es una colección de paquetes de R, pensados para trabajar en "ciencia de datos". 
+ 
+]
 
 .pull-right[
 
 
-### Cada vez que queremos utilizar una función del paquete, debemos __convocarlo__:
+```{r echo=FALSE, fig.align = 'center'}
+knitr::include_graphics(here::here("img/tidyverse.png"))
+```
+]
+
+
+---
+# __¿Por qué tidyverse?__
+
+
+- ### Orientado a ser leído y escrito por y para seres humanos
+
+--
+
+- ### Funciones no pensadas para una tarea específica sino para un proceso de trabajo
+
+.pull-left[
+```{r echo=FALSE, fig.align = 'center', out.width='110%'}
+knitr::include_graphics(here::here("img/circuito_del_dato.png"))
+```
+]
+
+.pull-right[
+```{r echo=FALSE, fig.align = 'center', out.width='110%'}
+knitr::include_graphics(here::here("img/circuito_del_dato_tidy.png"))
+```
+]
+
+--
+
+- ### Su comunidad, basada en los principios del código abierto y trabajo colaborativo 
+
+
+---
+
+# __Instalación y uso__
+
+* Sólo una vez (por computadora):
 
 ```r
-
-`library(nombre_del_paquete)`
-
+ `install.packages("tidyverse")`
 ```
-    
+
+--
+
+* En cada inicio de sesión de R o Rstudio:
+
+```r
+ `library(tidyverse)`
+```
+ 
+--
+
+.pull-left[
+
+_No es necesario esto:_
+
+```r
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("ggplot2")
+```
+]
+
+.pull-right[
+
+_Ni esto:_
+
+```r
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
 ]
 
 
@@ -148,42 +297,131 @@ class: inverse, middle, center
 ---
 # Lectura / importación de datos
 
-## R base tiene una función para cada extensión de archivo:
 
 <br><br>
 
-- `read.table()` --> _.txt_
 
-- `read.csv()` --> _.csv_
+## ✔️ lectura / escritura
 
-- `readRDS()` --> _.rds_
+### Paquetes para importar datos:
+
+- 📦 _{readr}_ 
+
+- 📦 _{readxl}_
+
+- 📦 _{haven}_
+
+
+---
+# Lectura de archivos
+ 
+## Funciones para importar datos:
+ 
+.pull-left[
+
+📦_{readr}_: 
+
+- 🔧 `read_csv()` 
+    
+- 🔧️ `read_table()`
+
+<br>
+
+📦 _{readxl}_: 
+
+- 🔧 `read_xlsx()`
+
+]
+
+.pull-right[
+
+📦_{haven}_: 
+
+- 🔧 `read_sav()` 
+
+- 🔧 `read_dat()`
+
+- 🔧 `read_sas()` 
+
+]
+
+---
+# Importar una base de datos
+
+### CASO:
+
+- Queremos traer la base _usuaria de personas para el 1er trimestre de 2022_ de la página del [INDEC](https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos).
+
+
+---
+# Importación: PLAN A
+
+
+### **Paso 1:** Descargar la base y guardarla en una carpeta de la computadora
+
+--
+
+### **Paso 2:** Según la extensión del archivo (*nombre_del_archivo`.algo`*), elegir la función en r para importar:
+
+--
+
+```r
+### Cargo la librería
+
+library(readr)
+
+
+### Importo base de datos
+
+base_eph_ind <- read`_csv`(file = "ruta_del_archivo/nombre_del_archico`.csv`")
+```
+
+--
+
+***tip:*** _si estás trabajando en Windows, la barra que separa cada carpeta de una ruta que pegues será `\` (ej: ruta_archivo\archivo.csv), pero la que acepta R es `/` (ej: ruta_archivo/archivo.csv)_
+
+
+---
+# PLAN B
+
+### Paso 1: En la pestaña **Environment --> Import Dataset**, elegimos la opción acorde a la extensión del archivo.
+
+
+```{r echo=FALSE, out.width='80%', fig.align='center'}
+knitr::include_graphics(here::here("img/import_1.png"))
+```
 
 
 
 ---
-# Lectura / importación de datos
+# Chequeamos la operación con alguna función
 
-## Pero... ¿no están todas, no?
-
---
-
-### Para ello, instalaremos algunos paquetes que nos permiten incorporar más funciones para leer más tipos de datos. 
-
-Por ejemplo, el paquete `haven` incorpora:
+```{r include=FALSE}
+base_eph_ind <- eph::get_microdata(2022, 1)
+```
 
 
-- `read_sas()` --> _.sas (SAS)_
+```r
+ `head(base_eph)`
+```
 
-- `read_spss()` --> _.sav (SPSS)_
+```{r echo=FALSE}
+head(base_eph_ind)
+```
 
-- `read_stata()` --> _.dta (STATA)_
 
 
---
+---
+# Chequeamos la operación con alguna función
 
-y el paquete `readxl`:
+```r
+ `str(base_eph_ind)`
+```
 
-- `read_xlsx()` --> _.xlsx (Excel)_
+```{r echo = FALSE}
+str(base_eph_ind)
+```
+
 
 ---
 # Lectura / importación de datos
@@ -196,11 +434,11 @@ y el paquete `readxl`:
 ### la función que me permite importar una base de datos de tipo _.csv_ se llama `read.csv()`:
 
 ```r
-base_cuidar <- read.csv(
-  file = "C:/Users/pablo/Desktop/proyecto_cuidar/entradas/certificados-personas-por-fecha-ingreso.csv",
+base_eph_ind <- read.table(
+  file = "C:/Users/pablo/Downloads/EPH_usu_1_Trim_2022_txt/EPH_usu_1er_Trim_2022_txt/usu_individual_T122.txt.txt",
   header = TRUE, 
-  sep = ",", 
-  dec = ".")
+  sep = ";", 
+  dec = ",")
 
 ```
 
@@ -212,11 +450,11 @@ base_cuidar <- read.csv(
 
 
 ```r
-base_cuidar <- read.csv(
-  'file = "C:/Users/pablo/Desktop/proyecto_cuidar/entradas/certificados-personas-por-fecha-ingreso.csv",'
+base_eph_ind <- read.table(
+  'file = "C:/Users/pablo/Downloads/EPH_usu_1_Trim_2022_txt/EPH_usu_1er_Trim_2022_txt/usu_individual_T122.txt.txt",'
   header = TRUE, 
-  sep = ",", 
-  dec = ".")
+  sep = ";", 
+  dec = ",")
 ```
 
 --
@@ -228,17 +466,38 @@ base_cuidar <- read.csv(
 - Si lo cambiamos de lugar, __se rompe__
    
 ---
-class: inverse, center, middle
+# Lectura / importación de datos
 
 ```{r echo=FALSE, out.height = 500, out.width = 800}
-knitr::include_graphics("../img/tomy hanky.gif")
+knitr::include_graphics(here::here("img/tomy hanky.gif"))
 ```
+
+- A tener en cuenta respecto a la ruta donde se ubica el archivo:
+
+
+```r
+base_eph <- read.table(
+  'file = "C:/Users/pablo/Downloads/EPH_usu_1_Trim_2022_txt/EPH_usu_1er_Trim_2022_txt/usu_individual_T122.txt.txt",'
+  header = TRUE, 
+  sep = ";", 
+  dec = ",")
+```
+
+--
+
+- Si se la compartimos a otra persona, __se rompe__
+    
+- Si cambiamos de computadora, __se rompe__
+    
+- Si lo cambiamos de lugar, __se rompe__
+   
+
 
 ---
 class: inverse, center, middle
 
 ```{r echo=FALSE, out.height = '50%'}
-knitr::include_graphics("../img/Rproject.png")
+knitr::include_graphics(here::here("img/Rproject.png"))
 ```
 
 ---
