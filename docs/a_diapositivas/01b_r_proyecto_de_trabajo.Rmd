@@ -3,7 +3,7 @@ title: "Armando un proyecto de trabajo"
 subtitle: "R + Ciencias Sociales"
 output:
   xaringan::moon_reader:
-    self_contained: true
+    #self_contained: true
     css: [default, metropolis, metropolis-fonts]
     lib_dir: libs
     nature:
@@ -104,6 +104,9 @@ library(here)
 
 ## ✔️ Paquete de paquetes: el mundo de `{tidyverse}`
 
+## ✔️ Importación de datos
+
+## ✔️ Proyecto de trabajo
 
 ---
 
@@ -124,33 +127,38 @@ library(here)
 ---
 class: middle, center, inverse
 
-background-image: url(img/R1.PNG)
-background-size: contain
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/R1.png"))
+```
 
 ---
 class: middle, center, inverse
 
-background-image: url(img/R2.PNG)
-background-size: contain
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/R2.png"))
+```
 
 ---
 class: middle, center, inverse
 
-background-image: url(img/R3.PNG)
-background-size: contain
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/R3.png"))
+```
 
 ---
 class: middle, center, inverse
 
-background-image: url(img/R4.PNG)
-background-size: contain
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/R4.png"))
+```
 
 ---
 class: middle, center, inverse
 
-background-image: url(img/R5.PNG)
-background-size: contain
-  
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/R5.png"))
+```
+
 ---
 
 #Paquetes    
@@ -373,7 +381,7 @@ library(readr)
 
 ### Importo base de datos
 
-base_eph_ind <- read`_csv`(file = "ruta_del_archivo/nombre_del_archico`.csv`")
+base_eph_ind <- read`_delim`(file = "ruta_del_archivo/nombre_del_archico`.txt`")
 ```
 
 --
@@ -424,25 +432,7 @@ str(base_eph_ind)
 
 
 ---
-# Lectura / importación de datos
 
-
-### Supongamos que descargo la base de datos de registros de certificados [CUIDAR-VERANO](http://datos.yvera.gob.ar/dataset/certificado-unico-habilitante-para-circulacion-cuhc---verano) en formato separado por comas (_.csv_) y la quiero importar con R.
-
---
-
-### la función que me permite importar una base de datos de tipo _.csv_ se llama `read.csv()`:
-
-```r
-base_eph_ind <- read.table(
-  file = "C:/Users/pablo/Downloads/EPH_usu_1_Trim_2022_txt/EPH_usu_1er_Trim_2022_txt/usu_individual_T122.txt.txt",
-  header = TRUE, 
-  sep = ";", 
-  dec = ",")
-
-```
-
----
 # Lectura / importación de datos
 
 
@@ -472,31 +462,10 @@ base_eph_ind <- read.table(
 knitr::include_graphics(here::here("img/tomy hanky.gif"))
 ```
 
-- A tener en cuenta respecto a la ruta donde se ubica el archivo:
-
-
-```r
-base_eph <- read.table(
-  'file = "C:/Users/pablo/Downloads/EPH_usu_1_Trim_2022_txt/EPH_usu_1er_Trim_2022_txt/usu_individual_T122.txt.txt",'
-  header = TRUE, 
-  sep = ";", 
-  dec = ",")
-```
-
---
-
-- Si se la compartimos a otra persona, __se rompe__
-    
-- Si cambiamos de computadora, __se rompe__
-    
-- Si lo cambiamos de lugar, __se rompe__
-   
-
-
 ---
 class: inverse, center, middle
 
-```{r echo=FALSE, out.height = '50%'}
+```{r echo=FALSE, out.hefight = '50%'}
 knitr::include_graphics(here::here("img/Rproject.png"))
 ```
 
@@ -560,12 +529,13 @@ knitr::include_graphics("../img/proyecto_nuevo.png")
 
 ### Armando un proyecto con Rstudio, la función se escribiría de esta forma:
 
+
 ```r
-base_cuidar <- read.csv(
-  'file = "entradas/certificados-personas-por-fecha-ingreso.csv",'
-  header = TRUE, 
-  sep = ",", 
-  dec = ".")
+library(readr)
+
+base_eph_ind <- read_delim(file = "entradas/usu_individual_T122.txt.txt",
+                                  delim = ";", 
+                                  col_names = TRUE)
 ```
 
 --
@@ -581,7 +551,7 @@ base_cuidar <- read.csv(
 class: inverse, middle, center
 
 ```{r echo=FALSE, out.height = 500, out.width = 800}
-knitr::include_graphics("../img/la_luz.gif")
+knitr::include_graphics(here::here("img/la_luz.gif"))
 ```
 
 
@@ -589,7 +559,7 @@ knitr::include_graphics("../img/la_luz.gif")
 ---
 # Proyectos y rutas de trabajo
 
-### Supongamos que queremos comenzar un nuevo proyecto para analizar el conjunto de certificados solicitados para vacacionar durante la temporada verano del año 2021
+### Un proyecto hecho y derecho
 
 --
 
@@ -617,7 +587,7 @@ knitr::include_graphics("../img/la_luz.gif")
 
     - 📂 entradas
     
-         - 📄 certificados-personas-por-fecha-ingreso.csv
+         - 📄 usu_individual_T122.txt.txt
     
     - 📂 salidas
     
@@ -629,16 +599,16 @@ knitr::include_graphics("../img/la_luz.gif")
 # Lectura / escritura de datos
 
 
-3) Abro Rstudio y creo un proyecto, ubicado en la carpeta principal (__cuidar__)
+3) Abro Rstudio y creo un proyecto, ubicado en la carpeta principal (__eph__)
 
 
 - 📂 cuidar
    
-     -  <img src = "../img/Rproject.png" style="height: 35px; width:35px;"/>  _proyecto_cuidar.Rproj_
+     -  <img src = "../img/Rproject.png" style="height: 35px; width:35px;"/>  _proyecto_eph.Rproj_
   
      - 📂 entradas
      
-         - 📄 _certificados-personas-por-fecha-ingreso.csv_
+         - 📄 _usu_individual_T122.txt.txt_
      
      - 📂 salidas
      
@@ -656,11 +626,11 @@ knitr::include_graphics("../img/la_luz.gif")
 
 - 📂 cuidar
     
-    -  <img src = "../img/Rproject.png" style="height: 35px; width:35px;"/>  _proyecto_cuidar.Rproj_
+    -  <img src = "../img/Rproject.png" style="height: 35px; width:35px;"/>  _proyecto_eph.Rproj_
   
     - 📂 entradas
   
-        - 📄 _certificados-personas-por-fecha-ingreso.csv_
+        - 📄 _usu_individual_T122.txt.txt_
   
     - 📂 salidas
     
@@ -674,7 +644,7 @@ knitr::include_graphics("../img/la_luz.gif")
 ---
 # Lectura / escritura de datos
 
-5) En el script, cargo los paquetes cuyas funciones voy a utilizar. En este caso, voy a probar el paquete `readr` para poder importar bases de datos de una extensión _.csv (archivo separado por comas)_:
+5) En el script, cargo los paquetes cuyas funciones voy a utilizar. En este caso, voy a probar el paquete `readr` para poder importar bases de datos de una extensión _.txt (archivo separado por comas)_:
 
 ```{r}
 library(readr)
@@ -682,12 +652,14 @@ library(readr)
 
 --
 
-6) Creo un objeto en el cual voy a importar la base de datos y utilizo la función `read_csv()` para hacerlo.
+6) Creo un objeto en el cual voy a importar la base de datos y utilizo la función `read_delim()` para hacerlo.
 
 __Recordar:__ _Estamos en un proyecto, por lo que la ruta es a partir de la carpeta en la que se encuentra el mismo_
 
 ```r
-base_cuidar <- read_csv(file = "entradas/certificados-personas-por-fecha-ingreso.csv")
+base_eph_ind <- read_delim(file = "entradas/usu_individual_T122.txt.txt",
+                                  delim = ";", 
+                                  col_names = TRUE)
 ```
 
 ---

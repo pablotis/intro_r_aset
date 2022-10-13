@@ -4,7 +4,7 @@ subtitle: "R + Ciencias Sociales"
 author: "Pablo Tiscornia"
 output:
   xaringan::moon_reader:
-    self_contained: true
+    #self_contained: true
     css: [default, metropolis, metropolis-fonts]
     lib_dir: libs
     nature:

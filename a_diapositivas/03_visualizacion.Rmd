@@ -3,7 +3,7 @@ title: "Visualizando datos con el paquete ggplot2"
 subtitle: "R + Ciencias Sociales"
 output:
   xaringan::moon_reader:
-    self_contained: true
+    #self_contained: true
     css: [default, metropolis, metropolis-fonts]
     lib_dir: libs
     nature:
