@@ -6,7 +6,7 @@ theme: theme_intro_r.css
 navbar:
   #source_url: https://github.com/rstudio/distill
   left:
-    - text: "Profesor"
+    - text: "Equipo docente"
       menu:
         - text: "Pablo Tiscornia"
           href: about_pablotiscornia.html
