@@ -1,7 +1,7 @@
 ---
 title: "Procesando datos con el paquete tidyverse"
 subtitle: "R + Ciencias Sociales"
-author: "Pablo Tiscornia"
+author: " "
 output:
   xaringan::moon_reader:
     #self_contained: true
@@ -96,6 +96,81 @@ options(scipen = 9999)
 
 </style>
 
+---
+
+
+## Clases anteriores
+--
+
+
+- Introducción a la EPH 
+--
+
+- R base
+--
+
+
+- Proyecto de trabajo
+--
+
+
+## Próximas clases
+--
+
+
+- Tidyverse: procesamiento de datos
+--
+
+
+- ggplot2: visualización de datos
+--
+
+
+- Rmarkdown: generación de informes
+
+---
+# Configuraciones iniciales para hoy
+
+--
+
+- Tener tu propio proyecto de clase armado `File -> New Project`
+
+
+--
+
+
+- Crea tu Rmd de trabajo `File -> New File -> Rmarkdown`
+
+
+
+
+--
+
+
+
+
+- Carga las siguientes librerías
+
+```{r eval=FALSE, tidy=FALSE}
+library(tidyverse)
+library(eph)
+library(questionr)
+install.packages("paquete") # nombre del paquete o librería que necesitamos instalar
+```
+
+
+--
+
+
+- Carga la base de datos eph  `b_eph_ind <- get_microdata(year = 2019, trimester = 3, type = "individual")`
+
+---
+class: inverse, middle, center
+
+
+# ¿Arrancamos? 🚀
+
+***
 
 ---
 class: inverse, middle, center
@@ -263,6 +338,18 @@ base_de_datos `%>%`
 
 
 ---
+
+# magrittr - una forma de escribir
+
+<br><br>
+
+### **Caso:** Deseo obtener la distribución relativa de casos por sexo:
+
+#### Funciones:
+
+`table()` - `prop.table()` - `round()`
+---
+
 # EL PIPE
 
 .pull-left[
@@ -304,24 +391,7 @@ b_eph_ind$CH04 %>%
 
 
 ---
-# magrittr - una forma de escribir
 
-<br><br>
-
-### **Caso:** Deseo obtener la distribución relativa de casos por sexo:
-
-#### Funciones:
-
-`table()` - `prop.table()` - `round()`
-
---
-
-```{r echo=FALSE}
-#knitr::include_app("https://pablot.shinyapps.io/ejercicio_xaringan/")
-```
-
-
----
 class: middle, center, inverse
   
 
@@ -547,7 +617,7 @@ knitr::include_graphics("https://media.tenor.com/images/b8718c934090ad1a36acd7ef
 ---
 class: inverse, middle, center
 
-# _PRÁCTICA_
+# _PRÁCTICA GRUPAL_
 
 <html>
   <div style='float:left'></div>
@@ -558,7 +628,7 @@ class: inverse, middle, center
 ---
 class: inverse, middle
 
-## Práctica
+## Práctica Grupal
 
 
 1) Crear un objeto en donde importamos la base de datos de la EPH (recordar tener en cuenta la extensión del archivo)
@@ -636,7 +706,7 @@ b_eph_ind %>%
 # filter()
 
 
-#### Operadores para filtrar:
+#### Operadores lógicos para filtrar:
 
 <br>
 
@@ -669,7 +739,7 @@ b_eph_ind %>%
 ---
 # filter()
 
-### **Caso:** Necesito delimitarl el universo a la población que reside en la _Ciudad Autónoma de buenos Aires_ __o__ en los _Partidos del Buenos aires_.
+### **Caso:** Necesito delimitar el universo a la población que reside en la _Ciudad Autónoma de buenos Aires_ __o__ en los _Partidos del Buenos aires_.
 
 --
 
@@ -712,7 +782,7 @@ b_eph_ind %>%
 ---
 class: inverse, middle, center
 
-# _PRÁCTICA_
+# _PRÁCTICA GRUPAL_
 
 <html>
   <div style='float:left'></div>
@@ -723,7 +793,7 @@ class: inverse, middle, center
 ---
 class: inverse, middle
 
-# Práctica
+# Práctica Grupal
 
 - A partir de la base de la EPH, crear un objeto nuevo que **contenga** las variables __AGLOMERADO__ y __CH06__ y **filtar** por aquella población que tenga _18 o más años de edad_ y que resida en los aglomerados de _Neuquén_ o _Río Negro_
 
@@ -826,7 +896,7 @@ b_eph_ind %>%
 ---
 class: inverse, middle, center
 
-# _PRÁCTICA_
+# _PRÁCTICA GRUPAL_
 
 ***
 
@@ -834,7 +904,7 @@ class: inverse, middle, center
 class: inverse
 
 
-# Práctica
+# Práctica Grupal
 
 
 1) Crear una variable nueva con las etiquetas correspondientes a los valores de **CAT_OCUP**:
