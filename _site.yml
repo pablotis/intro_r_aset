@@ -28,7 +28,7 @@ navbar:
           href: a_diapositivas/01b_r_proyecto_de_trabajo.html
         - text: "Modulo 02 - Herramientas de procesamiento de datos"
           href: a_diapositivas/02_tidyverse.html
-        - text: "Modulo 03 - Herramientas para la vizualizacion de datos"
+        - text: "Modulo 03 - Herramientas para la visualizacion de datos"
           href: a_diapositivas/03_visualizacion.html
         # - text: "Módulo 04 - Informes con Rmarkdown"
         #   href: a_diapositivas/04_informes.html
