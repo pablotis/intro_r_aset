@@ -107,9 +107,9 @@ knitr::opts_chunk$set(message = FALSE,
 
 options(scipen = 9999)
 ```
-
 ---
 class: inverse, middle, center
+
 
 
 # ¿Por qué visualizar?
@@ -192,7 +192,7 @@ class: inverse, middle, center
 
 ☑️️ `geom_histogram()`
 
-☑️️ `geom_boxplol()`
+☑️️ `geom_boxplot()`
 
 ☑️️ `geom_col()`
 
@@ -779,7 +779,7 @@ class: inverse, middle, center
 
 ---
 
-class: inverse, middle, center
+class: middle 
 
 - _Paletas de colores:_ https://colorbrewer2.org/
 

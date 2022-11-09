@@ -14,7 +14,7 @@ La idea es escribir código, mucho pero mucho código. Si bien habrá secciones 
 
 ## Plataforma de trabajo
 
-- Nos vemós acá: pablotis.github.io/intro_r/
+- Nos vemós acá: https://r-intro-aset.netlify.app/index.html 
 
-- Trabajaremos sobre estos contenidos: https://pablotis.github.io/intro_r/programa.html 
+- Trabajaremos sobre estos contenidos: https://r-intro-aset.netlify.app/programa.html 
 
