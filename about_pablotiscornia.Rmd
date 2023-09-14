@@ -15,7 +15,7 @@ links:
 output:
   postcards::jolla
 ---
- 
-Sociólogo (UBA), especializado en metodología, producción, procesamiento y comunicación de información estadística, con principal dedicación en el ámbito público. Últimamente enfocado en la mejora de procesos de trabajo vinculados al tratamiento de datos.
 
-He participado en la organización y difusión de la comunidad de [R en Buenos Aires](https://renbaires.github.io/) y en el desarrollo del [paquete eph](https://holatam.github.io/eph/), cuyo principal objetivo es facilitar herramientas y el acceso a datos de la Encuesta Permanente de Hogares - INDEC, mediante el lenguaje de programación `R`.
+Sociólogo (UBA), especializado en metodología, producción, procesamiento y comunicación de información estadística. Últimamente enfocado en la mejora de procesos de trabajo vinculados a la administración y difusión de datos.
+
+Ha participado en la organización de la comunidad [R en Buenos Aires](https://renbaires.github.io/). Es coautor en el desarrollo del paquete [eph](https://holatam.github.io/eph/), cuyo principal objetivo es facilitar herramientas y el acceso a datos de la Encuesta Permanente de Hogares - INDEC, mediante el lenguaje de programación `R` y también de los paquetes [comunicacion](https://github.com/dnme-minturdep/comunicacion), [herramientas](https://github.com/dnme-minturdep/herramientas) y [evyth](https://github.com/dnme-minturdep/evyth). 
