@@ -45,4 +45,4 @@ Rstudio es la plataforma desde donde se trabajará durante todo el taller. Si bi
 
 ## Descarga de Slack (versión escritorio)
 
-Slack es una plataforma de intercambio que funciona como un chat-foro. Desde allí es posible concentrar la comunicación del curso, difundir material, código como también realizar consultas y respuestas de forma grupal.
+En este curso vamos autilizar Slack, una plataforma de intercambio que funciona como un chat-foro. Desde allí es posible concentrar la comunicación del curso, difundir material, código como también realizar consultas y respuestas de forma grupal. [Aquí podes descargar](https://slack.com/intl/es-mx/downloads/l) la aplicación para tu sistema operativo.

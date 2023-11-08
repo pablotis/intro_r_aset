@@ -2,8 +2,8 @@
 title: "Pablo Tiscornia"
 image: "img/perfil.jpeg"
 links:
-  - label: Rpubs
-    url: "https://rpubs.com/pablotisco"
+  - label: Estación R
+    url: "https://estacion-r.netlify.app/"
   - label: LinkedIn
     url: "https://www.linkedin.com/in/ptiscornia/"
   - label: Twitter
