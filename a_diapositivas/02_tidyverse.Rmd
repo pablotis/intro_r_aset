@@ -45,6 +45,8 @@ xaringanExtra::use_extra_styles(
   hover_code_line = TRUE,         #<<
   mute_unhighlighted_code = TRUE  
 )
+
+
 ```
 
 ```{r xaringanExtra-scribble, echo=FALSE}
@@ -72,7 +74,7 @@ library(gt)
 library(icons)
 library(here)
 
-#b_eph_ind <- readRDS(here("entradas", "base_ind_2019t3.RDS"))
+b_eph_ind <- readRDS(here::here("entradas", "base_ind_2019t3.rds"))
 ```
 
 ```{r setup, include=FALSE}
@@ -162,7 +164,7 @@ install.packages("paquete") # nombre del paquete o librería que necesitamos ins
 --
 
 
-- Carga la base de datos eph  `b_eph_ind <- get_microdata(year = 2019, trimester = 3, type = "individual")`
+- Carga la base de datos eph  `b_eph_ind <- get_microdata(year = 2019, period = 3, type = "individual")`
 
 ---
 class: inverse, middle, center
@@ -297,11 +299,11 @@ install.packages("ggplot2")
 
 ```{r eval = FALSE}
 library(eph)
-b_eph_ind <- get_microdata(year = 2019, trimester = 3, type = "individual")
+b_eph_ind <- get_microdata(year = 2019, period = 3, type = "individual")
 ```
 
 ```{r echo = FALSE}
-b_eph_ind <- readRDS(here("entradas", "base_ind_2019t3.rds"))
+b_eph_ind <- readRDS(here::here("entradas", "base_ind_2019t3.rds"))
 ```
 
 
@@ -359,7 +361,7 @@ base_de_datos `%>%`
 ```{r eval=F}
 # Paso2(Paso1(base_de_datos$variable))
 
-prop.table(table(`b_eph_ind$CH04`))
+prop.table(table(b_eph_ind$CH04))
 ```
 
 
@@ -376,8 +378,8 @@ prop.table(table(b_eph_ind$CH04))
 
 
 ```{r eval = F}
-b_eph_ind$CH04 `%>%` # base_de_datos$variable
-  table() `%>%`        # Paso 1
+b_eph_ind$CH04 %>% # base_de_datos$variable
+  table() %>%        # Paso 1
   prop.table()       # Paso 2
 ```
 
@@ -454,7 +456,7 @@ knitr::include_graphics(here::here("img/select_presentacion.png"))
 
 --
 
-Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_t318.pdf), las variables de trabajo son:
+Según el [**Diseño de registro**](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_2T2023.pdf), las variables de trabajo son:
 
 - **Aglomerado de residencia** = `AGLOMERADO`
 
@@ -476,7 +478,7 @@ Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperio
 library(tidyverse)
 library(eph)
 
-b_eph_ind <- read.table("entradas/usu_individual_t119.txt",
+b_eph_ind <- read.table("entradas/usu_individual_T32019.txt",
                         header = TRUE, sep = ";")
 ```
 
@@ -1041,7 +1043,7 @@ knitr::include_graphics("https://media.tenor.com/images/6c8cf7404cd3fdc8f5182218
 
 --
 
-Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_t318.pdf), las variables de trabajo son:
+Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_2T2023.pdf), las variables de trabajo son:
 
 - **Aglomerado de residencia** = `AGLOMERADO`
 

@@ -3,7 +3,8 @@
   <head>
     <title>Procesando datos con el paquete tidyverse</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.17/header-attrs.js"></script>
+    <meta name="author" content="" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -130,7 +131,7 @@ install.packages("paquete") # nombre del paquete o librería que necesitamos ins
 --
 
 
-- Carga la base de datos eph  `b_eph_ind &lt;- get_microdata(year = 2019, trimester = 3, type = "individual")`
+- Carga la base de datos eph  `b_eph_ind &lt;- get_microdata(year = 2019, period = 3, type = "individual")`
 
 ---
 class: inverse, middle, center
@@ -262,7 +263,7 @@ install.packages("ggplot2")
 
 ```r
 library(eph)
-b_eph_ind &lt;- get_microdata(year = 2019, trimester = 3, type = "individual")
+b_eph_ind &lt;- get_microdata(year = 2019, period = 3, type = "individual")
 ```
 
 
@@ -324,7 +325,7 @@ base_de_datos `%&gt;%`
 ```r
 # Paso2(Paso1(base_de_datos$variable))
 
-prop.table(table(`b_eph_ind$CH04`))
+prop.table(table(b_eph_ind$CH04))
 ```
 
 
@@ -345,8 +346,8 @@ prop.table(table(`b_eph_ind$CH04`))
 
 
 ```r
-b_eph_ind$CH04 `%&gt;%` # base_de_datos$variable
-  table() `%&gt;%`        # Paso 1
+b_eph_ind$CH04 %&gt;% # base_de_datos$variable
+  table() %&gt;%        # Paso 1
   prop.table()       # Paso 2
 ```
 
@@ -421,7 +422,7 @@ base_de_datos %&gt;%
 
 --
 
-Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_t318.pdf), las variables de trabajo son:
+Según el [**Diseño de registro**](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_2T2023.pdf), las variables de trabajo son:
 
 - **Aglomerado de residencia** = `AGLOMERADO`
 
@@ -443,7 +444,7 @@ Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperio
 library(tidyverse)
 library(eph)
 
-b_eph_ind &lt;- read.table("entradas/usu_individual_t119.txt",
+b_eph_ind &lt;- read.table("entradas/usu_individual_T32019.txt",
                         header = TRUE, sep = ";")
 ```
 
@@ -516,25 +517,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -566,7 +567,7 @@ b_eph_ind %&gt;%
  8     1 27/02/2016     3     5     4
  9     1 15/07/1965    54     3     4
 10     1 19/08/2000    19     5     4
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -627,25 +628,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -677,7 +678,7 @@ b_eph_ind %&gt;%
  8     3     1 27/02/2016     3     5     4     2     1
  9     1     1 15/07/1965    54     3     4     1     2
 10     3     1 19/08/2000    19     5     4     1     1
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -732,25 +733,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -782,8 +783,8 @@ b_eph_ind %&gt;%
  8     3     1 27/0…     3     5     4     2     1     1     1     2 0         1
  9     1     1 15/0…    54     3     4     1     2     0     2     1 &lt;NA&gt;      3
 10     3     1 19/0…    19     5     4     1     1     1     4     2 5         1
-# … with 57,219 more rows, and 3 more variables: CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
-#   CH16_COD &lt;int&gt;
+# ℹ 57,219 more rows
+# ℹ 3 more variables: CH15_COD &lt;int&gt;, CH16 &lt;int&gt;, CH16_COD &lt;int&gt;
 ```
 ]
 
@@ -840,25 +841,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -890,7 +891,7 @@ b_eph_ind %&gt;%
  8       NA       NA &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;     
  9       22       NA 1009      30113     &lt;NA&gt;      &lt;NA&gt;     
 10       NA       NA 1009      30314     &lt;NA&gt;      &lt;NA&gt;     
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -950,25 +951,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -1000,7 +1001,7 @@ b_eph_ind %&gt;%
  8     3    NA    NA    NA    NA    NA    NA
  9     1     1     0     2     0     2     2
 10     3     1     0     2     0     2     2
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1133,25 +1134,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -1183,7 +1184,7 @@ b_eph_ind %&gt;%
  8          2     1     3      4     584
  9          2     1    54      1     584
 10          2     1    19      1     584
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1216,7 +1217,7 @@ b_eph_ind %&gt;%
  8          2     1    16      3     815
  9          2     1    31      1     815
 10          2     1    58      1     563
-# … with 45,334 more rows
+# ℹ 45,334 more rows
 ```
 ]
 
@@ -1326,25 +1327,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -1376,7 +1377,7 @@ b_eph_ind %&gt;%
  8          2     1     3      4     584
  9          2     1    54      1     584
 10          2     1    19      1     584
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1409,7 +1410,7 @@ b_eph_ind %&gt;%
  8         32     2    87      3    1923
  9         32     1    40      1    2424
 10         32     2    41      1    2424
-# … with 10,087 more rows
+# ℹ 10,087 more rows
 ```
 ]
 
@@ -1463,25 +1464,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -1513,7 +1514,7 @@ b_eph_ind %&gt;%
  8          2     1     3      4     584
  9          2     1    54      1     584
 10          2     1    19      1     584
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1546,7 +1547,7 @@ b_eph_ind %&gt;%
  8         32     2    87      3    1923
  9         32     1    40      1    2424
 10         32     2    41      1    2424
-# … with 10,087 more rows
+# ℹ 10,087 more rows
 ```
 ]
 
@@ -1659,25 +1660,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -1709,7 +1710,7 @@ b_eph_ind %&gt;%
  8     0       0
  9    -9       0
 10     0       0
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1742,7 +1743,7 @@ b_eph_ind %&gt;%
  8     0       0                0
  9    -9       0               -9
 10     0       0                0
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1805,25 +1806,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -1855,7 +1856,7 @@ b_eph_ind %&gt;%
  8     1     3
  9     1    54
 10     1    19
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1889,7 +1890,7 @@ b_eph_ind %&gt;%
  8     1     3 Varón
  9     1    54 Varón
 10     1    19 Varón
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -1942,25 +1943,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -1992,7 +1993,7 @@ b_eph_ind %&gt;%
  8     3
  9    54
 10    19
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -2030,7 +2031,7 @@ b_eph_ind %&gt;%
  8     3 0 a 18    
  9    54 50 a 59   
 10    19 19 a 29   
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -2139,25 +2140,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -2189,7 +2190,7 @@ b_eph_ind %&gt;%
  8      4     0     584
  9      1    -9     584
 10      1     0     584
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -2215,10 +2216,10 @@ b_eph_ind %&gt;%
 
 ```
 # A tibble: 1 × 5
-  cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ ingr_oc_princ…¹
-         &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;           &lt;dbl&gt;
-1     27989128      11933503                -9            540000           8269.
-# … with abbreviated variable name ¹​ingr_oc_princ_media
+  cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ
+         &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;
+1     27989128      11933503                -9            540000
+# ℹ 1 more variable: ingr_oc_princ_media &lt;dbl&gt;
 ```
 ]
 
@@ -2288,25 +2289,25 @@ library(questionr)
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -2340,7 +2341,7 @@ b_eph_ind %&gt;%
  8      4     0     584
  9      1    -9     584
 10      1     0     584
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -2368,10 +2369,10 @@ b_eph_ind %&gt;%
 
 ```
 # A tibble: 1 × 5
-  cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ ingr_oc_princ…¹
-         &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;           &lt;dbl&gt;
-1     27989128      11933503                -9            540000           8269.
-# … with abbreviated variable name ¹​ingr_oc_princ_media
+  cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ
+         &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;
+1     27989128      11933503                -9            540000
+# ℹ 1 more variable: ingr_oc_princ_media &lt;dbl&gt;
 ```
 ]
 
@@ -2463,25 +2464,25 @@ library(questionr)
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -2504,25 +2505,25 @@ b_eph_ind %&gt;%
 ```
 # A tibble: 57,229 × 177
 # Groups:   CH04 [2]
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -2550,11 +2551,11 @@ b_eph_ind %&gt;%
 
 ```
 # A tibble: 2 × 6
-   CH04 cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ ingr_oc…¹
-  &lt;int&gt;        &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;     &lt;dbl&gt;
-1     1     13528065       6793308                -9            540000    10805.
-2     2     14461063       5140195                -9            300000     5896.
-# … with abbreviated variable name ¹​ingr_oc_princ_media
+   CH04 cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ
+  &lt;int&gt;        &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;
+1     1     13528065       6793308                -9            540000
+2     2     14461063       5140195                -9            300000
+# ℹ 1 more variable: ingr_oc_princ_media &lt;dbl&gt;
 ```
 ]
 
@@ -2602,7 +2603,7 @@ b_eph_ind %&gt;%
 
 --
 
-Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_t318.pdf), las variables de trabajo son:
+Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_2T2023.pdf), las variables de trabajo son:
 
 - **Aglomerado de residencia** = `AGLOMERADO`
 
@@ -2631,25 +2632,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -2681,7 +2682,7 @@ b_eph_ind %&gt;%
  8          2     1     3      4     0     584
  9          2     1    54      1    -9     584
 10          2     1    19      1     0     584
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -2721,7 +2722,7 @@ b_eph_ind %&gt;%
  8          2     1     3      4     0     584 0 a 18     Varón
  9          2     1    54      1    -9     584 50 a 59    Varón
 10          2     1    19      1     0     584 19 a 29    Varón
-# … with 57,219 more rows
+# ℹ 57,219 more rows
 ```
 ]
 
@@ -2762,7 +2763,7 @@ b_eph_ind %&gt;%
  8         32     2    87      3     0    1923 60 o más   Mujer
  9         32     1    40      1    -9    2424 40 a 49    Varón
 10         32     2    41      1    -9    2424 40 a 49    Mujer
-# … with 10,087 more rows
+# ℹ 10,087 more rows
 ```
 ]
 
@@ -2805,7 +2806,7 @@ b_eph_ind %&gt;%
  8         32     2    87      3     0    1923 60 o más   Mujer
  9         32     1    40      1    -9    2424 40 a 49    Varón
 10         32     2    41      1    -9    2424 40 a 49    Mujer
-# … with 10,087 more rows
+# ℹ 10,087 more rows
 ```
 ]
 
@@ -2842,23 +2843,23 @@ b_eph_ind %&gt;%
 ```
 # A tibble: 14 × 7
 # Groups:   sexo [2]
-   sexo  edad_rango cant_pob_tot cant_ocupados min_ingr_oc_princ max_i…¹ ingr_…²
-   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;         &lt;int&gt;             &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;
- 1 Mujer 0 a 18          1946718         17926                -9   15000    45.4
- 2 Mujer 19 a 29         1192959        517320                -9   60000  5603. 
- 3 Mujer 30 a 39         1039620        637976                -9  103000 11186. 
- 4 Mujer 40 a 49         1076082        766799                -9  300000 13659. 
- 5 Mujer 50 a 59          817229        511513                -9  200000 11132. 
- 6 Mujer 60 o más        1692597        320630                -9   75000  2264. 
- 7 Mujer &lt;NA&gt;              67672             0                 0       0     0  
- 8 Varón 0 a 18          2113559         47708                -9   64008   226. 
- 9 Varón 19 a 29         1252010        808136                -9   85000 10114. 
-10 Varón 30 a 39          975293        858522                -9  122000 18043. 
-11 Varón 40 a 49         1017797        895313                -9  260000 23085. 
-12 Varón 50 a 59          772758        671746                -9  500000 22032. 
-13 Varón 60 o más        1229724        491218                -9  300000  8332. 
-14 Varón &lt;NA&gt;              88090             0                 0       0     0  
-# … with abbreviated variable names ¹​max_ingr_oc_princ, ²​ingr_oc_princ_media
+   sexo  edad_rango cant_pob_tot cant_ocupados min_ingr_oc_princ
+   &lt;chr&gt; &lt;chr&gt;             &lt;int&gt;         &lt;int&gt;             &lt;int&gt;
+ 1 Mujer 0 a 18          1946718         17926                -9
+ 2 Mujer 19 a 29         1192959        517320                -9
+ 3 Mujer 30 a 39         1039620        637976                -9
+ 4 Mujer 40 a 49         1076082        766799                -9
+ 5 Mujer 50 a 59          817229        511513                -9
+ 6 Mujer 60 o más        1692597        320630                -9
+ 7 Mujer &lt;NA&gt;              67672             0                 0
+ 8 Varón 0 a 18          2113559         47708                -9
+ 9 Varón 19 a 29         1252010        808136                -9
+10 Varón 30 a 39          975293        858522                -9
+11 Varón 40 a 49         1017797        895313                -9
+12 Varón 50 a 59          772758        671746                -9
+13 Varón 60 o más        1229724        491218                -9
+14 Varón &lt;NA&gt;              88090             0                 0
+# ℹ 2 more variables: max_ingr_oc_princ &lt;int&gt;, ingr_oc_princ_media &lt;dbl&gt;
 ```
 ]
 
@@ -2954,25 +2955,25 @@ count: false
 
 ```
 # A tibble: 57,229 × 177
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -2993,25 +2994,25 @@ b_eph_ind %&gt;%
 ```
 # A tibble: 57,229 × 177
 # Groups:   CH04 [2]
-   CODUSU      ANO4 TRIME…¹ NRO_H…² COMPO…³   H15 REGION MAS_500 AGLOM…⁴ PONDERA
-   &lt;fct&gt;      &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;     &lt;int&gt;   &lt;int&gt;
- 1 TQRMNOQXY…  2019       3       1       1     1     43 S             2     547
- 2 TQRMNOQXY…  2019       3       1       2     1     43 S             2     547
- 3 TQRMNOQXY…  2019       3       1       3     1     43 S             2     547
- 4 TQRMNOQXY…  2019       3       1       4     1     43 S             2     547
- 5 TQRMNOQST…  2019       3       1       2     1     43 S             2     584
- 6 TQRMNOQST…  2019       3       1       3     0     43 S             2     584
- 7 TQRMNOQST…  2019       3       1       4     0     43 S             2     584
- 8 TQRMNOQST…  2019       3       1       5     0     43 S             2     584
- 9 TQRMNOSRQ…  2019       3       1       1     1     43 S             2     584
-10 TQRMNOSRQ…  2019       3       1       2     1     43 S             2     584
-# … with 57,219 more rows, 167 more variables: CH03 &lt;int&gt;, CH04 &lt;int&gt;,
-#   CH05 &lt;fct&gt;, CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;,
-#   CH11 &lt;int&gt;, CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;,
-#   CH16 &lt;int&gt;, CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
+   CODUSU    ANO4 TRIMESTRE NRO_HOGAR COMPONENTE   H15 REGION MAS_500 AGLOMERADO
+   &lt;fct&gt;    &lt;int&gt;     &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;fct&gt;        &lt;int&gt;
+ 1 TQRMNOQ…  2019         3         1          1     1     43 S                2
+ 2 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 3 TQRMNOQ…  2019         3         1          3     1     43 S                2
+ 4 TQRMNOQ…  2019         3         1          4     1     43 S                2
+ 5 TQRMNOQ…  2019         3         1          2     1     43 S                2
+ 6 TQRMNOQ…  2019         3         1          3     0     43 S                2
+ 7 TQRMNOQ…  2019         3         1          4     0     43 S                2
+ 8 TQRMNOQ…  2019         3         1          5     0     43 S                2
+ 9 TQRMNOS…  2019         3         1          1     1     43 S                2
+10 TQRMNOS…  2019         3         1          2     1     43 S                2
+# ℹ 57,219 more rows
+# ℹ 168 more variables: PONDERA &lt;int&gt;, CH03 &lt;int&gt;, CH04 &lt;int&gt;, CH05 &lt;fct&gt;,
+#   CH06 &lt;int&gt;, CH07 &lt;int&gt;, CH08 &lt;int&gt;, CH09 &lt;int&gt;, CH10 &lt;int&gt;, CH11 &lt;int&gt;,
+#   CH12 &lt;int&gt;, CH13 &lt;int&gt;, CH14 &lt;chr&gt;, CH15 &lt;int&gt;, CH15_COD &lt;int&gt;, CH16 &lt;int&gt;,
+#   CH16_COD &lt;int&gt;, NIVEL_ED &lt;int&gt;, ESTADO &lt;int&gt;, CAT_OCUP &lt;int&gt;,
 #   CAT_INAC &lt;int&gt;, IMPUTA &lt;int&gt;, PP02C1 &lt;int&gt;, PP02C2 &lt;int&gt;, PP02C3 &lt;int&gt;,
-#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;,
-#   PP02E &lt;int&gt;, PP02H &lt;int&gt;, PP02I &lt;int&gt;, PP03C &lt;int&gt;, PP03D &lt;int&gt;, …
+#   PP02C4 &lt;int&gt;, PP02C5 &lt;int&gt;, PP02C6 &lt;int&gt;, PP02C7 &lt;int&gt;, PP02C8 &lt;int&gt;, …
 ```
 ]
 
@@ -3037,11 +3038,11 @@ b_eph_ind %&gt;%
 
 ```
 # A tibble: 2 × 6
-   CH04 cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ ingr_oc…¹
-  &lt;int&gt;        &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;     &lt;dbl&gt;
-1     1     13528065       6793308                -9            540000    10805.
-2     2     14461063       5140195                -9            300000     5896.
-# … with abbreviated variable name ¹​ingr_oc_princ_media
+   CH04 cant_pob_tot cant_ocupados min_ingr_oc_princ max_ingr_oc_princ
+  &lt;int&gt;        &lt;int&gt;         &lt;int&gt;             &lt;int&gt;             &lt;int&gt;
+1     1     13528065       6793308                -9            540000
+2     2     14461063       5140195                -9            300000
+# ℹ 1 more variable: ingr_oc_princ_media &lt;dbl&gt;
 ```
 ]
 
