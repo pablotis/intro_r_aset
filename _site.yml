@@ -10,7 +10,7 @@ navbar:
       menu:
         - text: "Pablo Tiscornia"
           href: about_pablotiscornia.html
-        - text: "Andrea Gómez Vargas"
+        - text: "Andrea Gomez Vargas"
           href: about_andreagomezvargas.html
       href: about.html
     - text: "Programa"
@@ -42,7 +42,7 @@ navbar:
     - text: "Bibliografia"
       href: biblio.html
     - icon: fab fa-github
-      href: https://github.com/pablotis/intro_r
+      href: https://github.com/pablotis/intro_r_aset
       
       
 output: distill::distill_article
