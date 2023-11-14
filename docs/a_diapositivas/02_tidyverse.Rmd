@@ -456,7 +456,7 @@ knitr::include_graphics(here::here("img/select_presentacion.png"))
 
 --
 
-Según el [**Diseño de registro**](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_2T2023.pdf), las variables de trabajo son:
+Según el [**Diseño de registro**](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_3t19.pdf), las variables de trabajo son:
 
 - **Aglomerado de residencia** = `AGLOMERADO`
 
@@ -1043,7 +1043,7 @@ knitr::include_graphics("https://media.tenor.com/images/6c8cf7404cd3fdc8f5182218
 
 --
 
-Según el [Diseño de registro](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_2T2023.pdf), las variables de trabajo son:
+Según el [**Diseño de registro**](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_3t19.pdf), las variables de trabajo son:
 
 - **Aglomerado de residencia** = `AGLOMERADO`
 
