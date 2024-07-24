@@ -23,22 +23,3 @@ Versión en castellano: [**R para Ciencia de Datos**](https://es.r4ds.hadley.nz/
 
 -   [**Wickham, H. ggplot2: elegant graphics for data analysis. Springer, 2016.**]( https://ggplot2-book.org/)
 
-
-
----
-
-
-### CONSULTAS 
-
-**Espacios de consulta:**
-
--   [_R en Buenos Aires_](https://renbaires.github.io/)
-
--   [_R-Ladies Buenos Aires_](https://www.meetup.com/es/rladies-buenos-aires/)
-
--   [Stackoverflow](https://es.stackoverflow.com/)
-
--   [Google](https://www.google.com.ar/?gws_rd=ssl)
-
-
----

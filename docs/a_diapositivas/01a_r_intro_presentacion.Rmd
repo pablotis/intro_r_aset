@@ -1,10 +1,13 @@
 ---
-title: "R Base"
-subtitle: "R + Ciencias Sociales"
+title: "Introducción al Procesamiento de Datos con R"
+subtitle: "Fundamentos básicos del lenguaje"
+author: "[Estación R](https://linktr.ee/estacion_r)"
 output:
   xaringan::moon_reader:
-    #self_contained: true
-    css: [default, metropolis, metropolis-fonts]
+    self_contained: true
+    css: ../estilo/presentation_styles.css
+    includes:
+      after_body: ../estilo/insert-logo.html
     lib_dir: libs
     nature:
       ratio: 16:9
@@ -15,71 +18,48 @@ output:
 ---
 
 
-```{r include=FALSE}
-options(tibble.width = NULL)
-```
-
-
-```{r xaringanExtra-clipboard, eval=FALSE, include=FALSE}
-### Para copiar / Pegar código
-
-htmltools::tagList(
- xaringanExtra::use_clipboard(
-   button_text = "<i class=\"fa fa-clipboard\"></i>",
-   success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
- ),
- rmarkdown::html_dependency_font_awesome()
-)
-```
-
-```{r xaringan-extra-styles, echo=FALSE}
-
-
-xaringanExtra::use_extra_styles(
-  hover_code_line = TRUE,         #<<
-  mute_unhighlighted_code = TRUE  
-)
-```
-
-```{r xaringanExtra-scribble, echo=FALSE}
-### ANOTADORES
-
-#xaringanExtra::use_scribble()
-```
-
-```{r xaringan-panelset, echo=FALSE}
-xaringanExtra::use_panelset()
-
-xaringanExtra::style_panelset_tabs(
-  active_foreground = "#0051BA",
-  hover_foreground = "#d22",
-  font_family = "Roboto"
-)
-```
-
-<style type="text/css">
-.remark-slide-content {
-    font-size: 25px;
-    padding: 1em 1em 1em 1em;
-}
-</style>
-
-
-
 ```{r, include = F}
 # This is the recommended set up for flipbooks
 # you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
-knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE, comment = "", cache = F)
+#knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE)
+
+options(htmltools.dir.version = FALSE,
+        tibble.width = NULL)
+
+knitr::opts_chunk$set(collapse = TRUE,
+                      fig.retina = 3,
+                      fig.width = 10,
+                      out.width = 300, ### control plot size
+                      #cache = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "", 
+                      cache = FALSE)
 
 
 library(flipbookr)
 library(tidyverse)
-library(xaringanthemer)
 library(xaringan)
+library(xaringanthemer)
+library(xaringanExtra)
 library(gt)
+#remotes::install_github("mitchelloharawild/icons")
 library(icons)
 library(here)
 library(countdown)
+```
+
+```{r xaringanExtra-clipboard, eval=FALSE, include=FALSE}
+### Para copiar / Pegar código
+# htmltools::tagList(
+#  xaringanExtra::use_clipboard(
+#    button_text = "<i class=\"fa fa-clipboard\"></i>",
+#    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+#  ),
+#  rmarkdown::html_dependency_font_awesome()
+# )
+# 
+# xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons", "extra_styles", "scribble", "editable", "broadcast", "webcam"))
 ```
 
 
@@ -88,23 +68,23 @@ library(countdown)
 
 <br>
 
-## ✔️ Valores
+📌 ¿Qué es R?
 
-## ✔️ Vectores (Variables)
+📌️ R vs Rstudio
 
-## ✔️ Funciones
+📌️ Primeros pasos en R
 
-## ✔️ Objetos
+📌️ Funciones y️ Paquetes
 
-## ✔️ Data frames (bases de datos)
+📌️ Proyectos de trabajo
 
-
+📌️ Conviviendo con el error - Ayuda en R
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, middle, hide-logo
 
-# VALORES
+# ¿Qué es R?
 
 <html>
   <div style='float:left'></div>
@@ -112,7 +92,132 @@ class: inverse, center, middle
 </html>
 
 ---
-# Valores
+class: center, middle
+
+<img src="../img/clase_1/r_miedo.jpg" alt="miedo_r" width="1000"/>
+
+---
+# ¿Qué es R?
+
+
+- R es un lenguaje y entorno para computación estadística y gráficos
+
+--
+
+- Más de 30 años de desarollo (nace en 1993)
+
+--
+
+- La _**lingua franca**_ de la estadística
+
+--
+
+- Es Software libre (gratuito) y de código abierto (transparente)
+
+---
+# ¿Por qué R?
+
+- Diseñado para el análisis estadístico y comunicación de la información
+
+--
+
+- Permite lidiar con grandes volúmenes de datos
+
+--
+
+- Sintaxis "para humanos"
+
+--
+
+- Permite la automatización de tareas
+
+--
+
+- Crece a partir de su comunidad (no depende de la voluntad de una empresa)
+
+  - Academia / Investigación Científica
+  
+  - Sector privado
+  
+  - "Gente de a pie"
+
+---
+class: center, middle
+
+### Punto de inflexión en la historia de R
+
+<br>
+
+- 2016: Nace la colección de paquetes llamada `tidyverse`
+
+- Menos foco en la mecánica del lenguaje / Más foco en un lenguaje "para humanos", simplificación de la sintaxis
+
+---
+class: inverse, center, middle, hide-logo
+
+# R y Rstudio
+
+<html>
+  <div style='float:left'></div>
+  <hr color='#EB811B' size=1px width=1125px>
+</html>
+
+---
+# R y Rstudio
+
+.pull-left[
+
+**R** = El motor
+
+<img src="../img/clase_1/r_motor.jpeg" alt="miedo_r" width="300"/>
+
+__R es un lenguaje de programación que ejecuta cómputos.__
+]
+
+.pull-right[
+
+**Rstudio** = Tablero de control
+
+<img src="../img/clase_1/r_tablero.jpeg" alt="miedo_r" width="300"/>
+
+__RStudio es un entorno de desarrollo integrado (IDE) que proporciona una interfaz al agregar muchas funciones y herramientas convenientes__
+]
+
+---
+# R y Rstudio
+
+- Una vez instalados los programas, debemos siempre abrir **Rstudio** y no **R**:
+
+.pull-left[
+
+❌
+
+<img src="../img/clase_1/consola_r.png" alt="miedo_r" width="300"/>
+
+]
+
+.pull-right[
+
+✅
+
+<img src="../img/clase_1/consola_r_studio_ok.png" alt="miedo_r" width="300"/>
+
+]
+
+---
+class: inverse, center, middle
+
+# Vamos a Rstudio!
+
+---
+
+<img src="../img/clase_1/consola_r_studio.png" alt="miedo_r" width="1200"/>
+
+--
+
+---
+
+
 
 En R la unidad mínima para trabajar son los _valores_:
 

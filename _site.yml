@@ -2,36 +2,40 @@ name: "intro_r"
 title: "Inicio"
 description: "Intro a R"
 output_dir: "docs"
-theme: theme_intro_r.css
+theme: estilo/theme_intro_r.css
 navbar:
+  logo:
+    image: https://pbs.twimg.com/profile_banners/1214735980172845056/1716430021/1500x500
+    href: https://estacion-r.netlify.app/
+  favicon: estilo/logo/logo_aaip.ico
+  twitter:
+    site: "@estacion-r"
   #source_url: https://github.com/rstudio/distill
   left:
-    - text: "Equipo docente"
+    - text: "Sobre el taller"
       menu:
-        - text: "Pablo Tiscornia"
+        - text: "Docente"
           href: about_pablotiscornia.html
-        - text: "Andrea Gomez Vargas"
-          href: about_andreagomezvargas.html
-      href: about.html
-    - text: "Programa"
-      href: programa.html
-    - text: "Puesta a punto"
-      href: puesta_a_punto.html
-  right:
-    - text: "Diapositivas"
+        - text: "Programa"
+          href: programa.html
+        - text: "Puesta a punto"
+          href: puesta_a_punto.html
+        - text: "Bibliografia"
+          href: biblio.html
+    - text: "Encuentros"
       menu:
-        - text: "Modulo 00 - Introducción a la EPH"
-          href: a_diapositivas/00_r_intro_eph.html
-        - text: "Modulo 01.a - R base"
+        - text: "Clase 1 - Introducción a R"
           href: a_diapositivas/01a_r_intro_presentacion.html
-        - text: "Modulo 01.b - Proyecto de trabajo"
-          href: a_diapositivas/01b_r_proyecto_de_trabajo.html
-        - text: "Modulo 02 - Herramientas de procesamiento de datos"
-          href: a_diapositivas/02_tidyverse.html
-        - text: "Modulo 03 - Herramientas para la visualizacion de datos"
-          href: a_diapositivas/03_visualizacion.html
-        - text: "Módulo 04 - Informes con Rmarkdown"
-          href: a_diapositivas/04_informes.html
+          # - text: "Modulo 01.a - R base"
+          #   href: a_diapositivas/01a_r_intro_presentacion.html
+          # - text: "Modulo 01.b - Proyecto de trabajo"
+          #   href: a_diapositivas/01b_r_proyecto_de_trabajo.html
+          # - text: "Modulo 02 - Herramientas de procesamiento de datos"
+          #   href: a_diapositivas/02_tidyverse.html
+          # - text: "Modulo 03 - Herramientas para la visualizacion de datos"
+          #   href: a_diapositivas/03_visualizacion.html
+          # - text: "Módulo 04 - Informes con Rmarkdown"
+          #   href: a_diapositivas/04_informes.html
     - text: "Ejercitacion"
       menu:
         - text: "Modulo 01.a - R base - Practica"
@@ -39,10 +43,4 @@ navbar:
         - text: "Modulo 02 - Herramientas de procesamiento de datos"
           href: b_ejercitacion/02_tidyverse_practica.html
         - text: "Modulo 03 - Herramientas para la vizualizacion de datos"
-    - text: "Bibliografia"
-      href: biblio.html
-    - icon: fab fa-github
-      href: https://github.com/pablotis/intro_r_aset
-      
-      
 output: distill::distill_article

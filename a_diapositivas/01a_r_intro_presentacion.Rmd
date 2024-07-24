@@ -1,10 +1,13 @@
 ---
-title: "R Base"
-subtitle: "R + Ciencias Sociales"
+title: "Introducción al Procesamiento de Datos con R"
+subtitle: "Fundamentos básicos del lenguaje"
+author: "[Estación R](https://linktr.ee/estacion_r)"
 output:
   xaringan::moon_reader:
-    #self_contained: true
-    css: [default, metropolis, metropolis-fonts]
+    self_contained: true
+    css: ../estilo/presentation_styles.css
+    includes:
+      after_body: ../estilo/insert-logo.html
     lib_dir: libs
     nature:
       ratio: 16:9
@@ -15,37 +18,37 @@ output:
 ---
 
 
-```{r include=FALSE}
-options(tibble.width = NULL)
+```{r, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+#knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE)
+
+options(htmltools.dir.version = FALSE,
+        tibble.width = NULL)
+
+knitr::opts_chunk$set(collapse = TRUE,
+                      fig.retina = 3,
+                      fig.width = 10,
+                      out.width = 300, ### control plot size
+                      #cache = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "", 
+                      cache = FALSE)
+
+
+library(flipbookr)
+library(tidyverse)
+library(xaringan)
+library(xaringanthemer)
+library(xaringanExtra)
+library(gt)
+#remotes::install_github("mitchelloharawild/icons")
+library(icons)
+library(here)
+library(countdown)
 ```
 
-
-```{r xaringanExtra-clipboard, eval=FALSE, include=FALSE}
-### Para copiar / Pegar código
-
-htmltools::tagList(
- xaringanExtra::use_clipboard(
-   button_text = "<i class=\"fa fa-clipboard\"></i>",
-   success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
- ),
- rmarkdown::html_dependency_font_awesome()
-)
-```
-
-```{r xaringan-extra-styles, echo=FALSE}
-
-
-xaringanExtra::use_extra_styles(
-  hover_code_line = TRUE,         #<<
-  mute_unhighlighted_code = TRUE  
-)
-```
-
-```{r xaringanExtra-scribble, echo=FALSE}
-### ANOTADORES
-
-#xaringanExtra::use_scribble()
-```
 
 ```{r xaringan-panelset, echo=FALSE}
 xaringanExtra::use_panelset()
@@ -57,54 +60,29 @@ xaringanExtra::style_panelset_tabs(
 )
 ```
 
-<style type="text/css">
-.remark-slide-content {
-    font-size: 25px;
-    padding: 1em 1em 1em 1em;
-}
-</style>
-
-
-
-```{r, include = F}
-# This is the recommended set up for flipbooks
-# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
-knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE, comment = "", cache = F)
-
-
-library(flipbookr)
-library(tidyverse)
-library(xaringanthemer)
-library(xaringan)
-library(gt)
-library(icons)
-library(here)
-library(countdown)
-```
-
 
 # Hoja de ruta
 
 
 <br>
 
-## ✔️ Valores
+📌 ¿Qué es R?
 
-## ✔️ Vectores (Variables)
+📌️ R vs Rstudio
 
-## ✔️ Funciones
+📌️ Primeros pasos en R
 
-## ✔️ Objetos
+📌️ Funciones y️ Paquetes
 
-## ✔️ Data frames (bases de datos)
+📌️ Proyectos de trabajo
 
-
+📌️ Conviviendo con el error - Ayuda en R
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, middle, hide-logo
 
-# VALORES
+# ¿Qué es R?
 
 <html>
   <div style='float:left'></div>
@@ -112,9 +90,191 @@ class: inverse, center, middle
 </html>
 
 ---
-# Valores
+class: center, middle
 
-En R la unidad mínima para trabajar son los _valores_:
+<img src="../img/clase_1/r_miedo.jpg" alt="miedo_r" width="1000"/>
+
+---
+# ¿Qué es R?
+
+
+- R es un lenguaje y entorno para computación estadística y gráficos
+
+--
+
+- Más de 30 años de desarollo (nace en 1993)
+
+--
+
+- La _**lingua franca**_ de la estadística
+
+--
+
+- Es Software libre (gratuito) y de código abierto (transparente)
+
+---
+# ¿Por qué R?
+
+- Diseñado para el análisis estadístico y comunicación de la información
+
+--
+
+- Permite lidiar con grandes volúmenes de datos
+
+--
+
+- Sintaxis "para humanos"
+
+--
+
+- Permite la automatización de tareas
+
+--
+
+- Crece a partir de su comunidad (no depende de la voluntad de una empresa)
+
+  - Academia / Investigación Científica
+  
+  - Sector privado
+  
+  - "Gente de a pie"
+
+.
+
+--- 
+### Punto de inflexión en la historia de R
+
+<br>
+
+- 2016: Nace la colección de paquetes llamada `tidyverse`
+
+- Menos foco en la mecánica del lenguaje / Más foco en un lenguaje "para humanos", simplificación de la sintaxis
+
+---
+class: inverse, center, middle, hide-logo
+
+# R y Rstudio
+
+<html>
+  <div style='float:left'></div>
+  <hr color='#EB811B' size=1px width=1125px>
+</html>
+
+---
+# R y Rstudio
+
+.pull-left[
+
+**R** = El motor
+
+<img src="../img/clase_1/r_motor.jpeg" alt="miedo_r" width="300"/>
+
+__R es un lenguaje de programación que ejecuta cómputos.__
+]
+
+.pull-right[
+
+**Rstudio** = Tablero de control
+
+<img src="../img/clase_1/r_tablero.jpeg" alt="miedo_r" width="300"/>
+
+__RStudio es un entorno de desarrollo integrado (IDE) que proporciona una interfaz al agregar muchas funciones y herramientas convenientes__
+]
+
+---
+# R y Rstudio
+
+- Una vez instalados los programas, debemos siempre abrir **Rstudio** y no **R**:
+
+.pull-left[
+
+❌
+
+<img src="../img/clase_1/consola_r.png" alt="miedo_r" width="400"/>
+
+]
+
+.pull-right[
+
+✅
+
+<img src="../img/clase_1/consola_r_studio_ok.png" alt="miedo_r" width="600"/>
+
+]
+
+---
+class: inverse, center, middle, hide-logo
+
+# ¡Vamos a Rstudio!
+
+---
+
+<img src="../img/clase_1/consola_r_studio.png" alt="miedo_r" width="1200"/>
+
+---
+# Configuración básica de Rstudio
+
+<br>
+
+- Identificar las 4 ventanas principales 
+
+<br>
+
+- Cambiar la apariencia de la plataforma 
+
+<br>
+
+- Setear en Opciones Globales (Global Options) la configuración General
+
+---
+# Configuración básica de Rstudio
+
+<br>
+
+- Identificar las 4 ventanas principales ✅
+
+<br>
+
+- Cambiar la apariencia de la plataforma 
+
+<br>
+
+- Setear en Opciones Globales (Global Options) la configuración General
+
+---
+# Configuración básica de Rstudio
+
+<br>
+
+- Identificar las 4 ventanas principales ✅
+
+<br>
+
+- Cambiar la apariencia de la plataforma ✅
+
+<br>
+
+- Setear en Opciones Globales (Global Options) la configuración General
+
+---
+# Configuración básica de Rstudio
+
+<br>
+
+- Identificar las 4 ventanas principales ✅
+
+<br>
+
+- Cambiar la apariencia de la plataforma ✅
+
+<br>
+
+- Setear en Opciones Globales (Global Options) la configuración General ✅
+
+---
+# Primeros pasos: conceptos básicos de R
+
+- En R la unidad mínima para trabajar son los _valores_:
 
 #### - `1` es un valor (numérico), 
 
@@ -132,7 +292,7 @@ En R la unidad mínima para trabajar son los _valores_:
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, middle, hide-logo
 
 # VECTORES
 
@@ -148,7 +308,7 @@ class: inverse, center, middle
 
 - A un conjunto de valores lo llamaremos __vector__ y R los interpretará bajo el comando `c()`. 
 
-- Los vectores, como los valores, también serán de un tipo determinado:
+- Los vectores, como los valores, también serán (**sólo**) de un tipo determinado:
 
 --
 
@@ -177,7 +337,7 @@ c("uno", "dos", "tres", "cuatro", "cinco")
 
 
 
-class: inverse, center, middle
+class: inverse, center, middle, hide-logo
 
 # FUNCIONES
 
@@ -193,9 +353,9 @@ class: inverse, center, middle
 
 #### - __La función__ es una operación que nos ayuda a resolver un problema que de otra forma llevaría más pasos/tiempo.
 
-#### - __Una función__ tiene _nombre_ y suele (intenta) ser intuitivo respecto a la acción que realiza (el problema que resuelve). También comienza y termina con paréntesis `()`, donde se ubica el o los argumentos. 
+#### - __Una función__ tiene _nombre_, el cual suele (intenta) ser intuitivo respecto a la acción que realiza (el problema que resuelve).
 
-```{r echo=FALSE, out.height = 300, out.width = 600, fig.align='center'}
+```{r echo=FALSE, out.height = 250, out.width = 550, fig.align='center'}
 #knitr::include_graphics(here("img", "funcion_desc.png"))
 knitr::include_graphics(here::here("img/funcion_desc.png"))
 ```
@@ -203,7 +363,82 @@ knitr::include_graphics(here::here("img/funcion_desc.png"))
 ---
 # Funciones
 
-#### - Por ejemplo, la función `class()` evalúa el tipo (numérico, cáracter) de un elemento
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/clase_1/R1.PNG"))
+```
+
+---
+# Funciones
+
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/clase_1/R2.PNG"))
+```
+
+---
+# Funciones
+
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/clase_1/R3.PNG"))
+```
+
+---
+# Funciones
+
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/clase_1/R4.PNG"))
+```
+
+---
+# Funciones
+
+```{r echo=FALSE, out.width= '70%'}
+knitr::include_graphics(here::here("img/clase_1/R5.PNG"))
+```
+
+---
+
+#Paquetes    
+
+<br>
+
+#### INSTALACIÓN
+
+- Podemos descargarlos e instalarlos con el siguiente comando: 
+
+```r
+ `install.packages("nombre_del_paquete")`
+```
+
+- Sólo es necesario instalar el paquete una vez por computadora.
+
+---
+
+#Paquetes  
+
+#### INVOCACIÓN
+
+.pull-left[
+
+- Una vez instalado, cada vez que abramos una nueva sesión de R y querramos utilizar el paquete debemos **cargarlo al ambiente de trabajo** mediante la función:    
+
+```r
+ `library(nombre_del_paquete)`
+```
+]
+
+.pull-right[
+
+```{r echo=FALSE, eval=TRUE, out.width= '500px'}
+
+knitr::include_graphics(here::here("img/clase_1/invocacion.gif"))
+
+```
+]
+
+---
+# Funciones - Ejemplos
+
+#### - La función `class()` evalúa el tipo (numérico, cáracter) de un elemento
 
 #### Evaluemos de qué tipo es el valor `2`
 ```{r}
@@ -221,17 +456,22 @@ class("dos")
 ---
 # Funciones
 
+<br>
+
 #### - Otras funciones nos permiten incluir más de un argumento. En este caso, cada uno de ellos se separa con una coma (`,`).
 
-#### Por ejemplo, la función `sum()` permite _sumar_ varios valores numéricos:
+- `sum()` permite _sumar_ varios valores numéricos:
 
 ```{r}
 sum(2, 5, 10)
 ```
 
---
+---
+# Funciones
 
-#### La función `paste0()` permite _pegar_ varios valores de tipo texto:
+<br>
+
+- `paste0()` permite _pegar_ varios valores de tipo texto:
 
 ```{r}
 paste0("Esto", "es", "un texto", "con", "seis", "valores")
@@ -241,19 +481,18 @@ paste0("Esto", "es", "un texto", "con", "seis", "valores")
 ---
 # Funciones
 
-#### - Ciertas funciones también incluyen _parámetros_, los cuales agregan _especificaciones_ que hacemos a la operación que realiza la función.
+#### - Ciertas funciones también incluyen `parámetros`, los cuales agregan _especificaciones_ que hacemos a la operación que realiza la función.
 
 --
 
-Por ejemplo, queremos una función que pegue los valores anteriores pero que los separe por un espacio. En este caso, la función `paste()` (sin el `0` al final) contiene un parámetro llamado `sep = `, que permite definir un separador entre cada argumento.
+El parámetro `sep = ` permite definir un separador entre cada argumento.
 
 ```{r}
 paste("Esto", "es", "un texto", "con", "seis", "valores", sep = "_")
 ```
 
 ---
-class: inverse, middle, center
-
+class: inverse, middle, center, hide-logo
 
 # PRÁCTICA
 
@@ -264,7 +503,7 @@ class: inverse, middle, center
 
 
 ---
-class: inverse, middle
+class: inverse, middle, hide-logo
 
 # Práctica
 
@@ -282,7 +521,20 @@ class: inverse, middle
 
 
 ---
-class: inverse, center, middle
+class: middle, center
+
+# Descanso
+
+```{r echo=FALSE}
+library(countdown)
+
+contador <- countdown(minutes = 10, bottom = 0, warn_when = 60, blink_colon = TRUE, play_sound=here::here("encuentros/1-intro-r/images/inst_adlibs_birdman1.wav"))
+```
+
+`r contador`
+
+---
+class: inverse, center, middle, hide-logo
 
 # OBJETOS
 
@@ -296,12 +548,12 @@ class: inverse, center, middle
 ---
 # Objetos
 
-- En R el elemento más importante es el  __objeto__. Tanto valores como vectores (y practicamente, cualquier elemento) pueden ser _asignados_ a un objeto.
+- En R cualquier elemento puede ser _asignado_ a (guardado en) un objeto.
 
 - Al objeto debemos definirlo por un nombre (elige tu propia aventura) y _asignarle_ el contenido:
 
 
-```{r echo=FALSE, out.height=400, out.width= 700, fig.align='center'}
+```{r echo=FALSE, out.height=300, out.width= 600, fig.align='center'}
 #knitr::include_graphics(here("img", "objeto_nuevo.png"))
 knitr::include_graphics(here::here("img/objeto_nuevo.png"))
 ```
@@ -335,12 +587,10 @@ nombre_y_apellido <- c("D'artanian estrujillo", "Rigoberta manchuria", "Menganit
                        "Juancito loquillo", "Estanislao leningrado")
 ```
 
-
-
 ---
 # Objetos
 
-```{r echo=FALSE, fig.align='center'}
+```{r echo=FALSE, out.height=400, out.width= 750, fig.align='center'}
 #knitr::include_graphics(here("img", "objeto_ambiente.png"))
 knitr::include_graphics(here::here("img/objeto_ambiente.png"))
 ```
@@ -416,7 +666,7 @@ Objeto llamado `países`
 
 
 ---
-class: inverse, middle, center
+class: inverse, middle, center, hide-logo
 
 
 # DATA FRAMES (bases de datos)
@@ -433,7 +683,7 @@ class: inverse, middle, center
 
 El elemento `data.frame` es lo que conocemos como una _base de datos_: Filas (casos) y columnas (variables) relacionadas entre sí:
 
-```{r echo=FALSE, out.height=400, out.width= 700, fig.align='center'}
+```{r echo=FALSE, out.height=350, out.width= 600, fig.align='center'}
 #knitr::include_graphics(here("img", "data_frames.png"))
 knitr::include_graphics(here::here("img/data_frames.png"))
 ```
@@ -442,22 +692,19 @@ knitr::include_graphics(here::here("img/data_frames.png"))
 ---
 # Data frames
 
-
 - La función `data.frame()` nos permite crear una base de datos vinculando vectores:
 
 ```{r}
-data.frame(nombre_y_apellido, edad)
+data.frame(nombre_y_apellido, edad) #<<
 ```
-
 
 --
 
 - Podemos guardarlo en un objeto:
 
 ```{r}
-base_personas <- data.frame(nombre_y_apellido, edad)
+base_personas <- data.frame(nombre_y_apellido, edad) 
 ```
-
 
 
 ---
@@ -473,163 +720,102 @@ dim(base_personas) #<<
 summary(base_personas) #<<
 ```
 
----
-# Navengando por objetos: vectores
-
-#### R base nos permite _navegar_ entre los valores de un vector o data frame, y lo hace a través de `[]`
-
---
-
-#### - Supongamos que queremos extraer el 2do valor del objeto edad:
-
-```{r}
-edad <- c(24, 56, 75, 42, 99)
-
-edad[2]
-```
-
---
-
-#### - Podemos guardar en un objeto dicho valor
-
-```{r}
-valor_2do <- edad[2]
-valor_2do
-```
 
 ---
-# Navengando por objetos: vectores
+# Importar una base de datos
 
-#### Así como podemos consultarle a R por un valor en particular de un vector, también podemos usar el comando `[]` para _editar_ ese valor:
+### CASO:
 
-```{r}
-edad[2]
+- Queremos traer la base con los datos del formulario de relevamiento para el Índice de Transparencia 2024 
 
 
-```
+---
+# Importación: PLAN A
+
+
+#### **Paso 1:** Descargar la base y guardarla en una carpeta de la computadora
+
+---
+# Importación: PLAN A
+
+#### **Paso 2:** Según la extensión del archivo (*nombre_del_archivo`.algo`*), elegir la función en r para importar:
+
 --
 
-```{r}
-edad[2] <- 76
+```r
+### Cargo la librería
+library(readxl)
+
+### Importo base de datos
+base_indice_transparencia <- read`_xlsx`(path = "/home/pablote/Pablo/Proyectos/Estación R/Consultoría/intro_r_aaip/datos/relevamiento_indice_transparencia_2024.xlsx")
+```
+
+```{r include=FALSE}
+library(readxl)
+base_indice_transparencia <- read_xlsx(path = "/home/pablote/Pablo/Proyectos/Estación R/Consultoría/intro_r_aaip/datos/relevamiento_indice_transparencia_2024.xlsx")
 ```
 
 --
 
-
-#### Chequeo el contenido de mi objeto `edad`
-```{r}
-edad
-```
-
-
-
+***tip:*** _si estás trabajando en Windows, la barra que separa cada carpeta de una ruta que pegues será `\` (ej: ruta_archivo\archivo.csv), pero la que acepta R es `/` (ej: ruta_archivo/archivo.csv)_
 
 
 ---
-# Navengando por objetos: base de datos
+# PLAN B
 
-#### Supongamos que tenemos la siguiente base de datos:
+#### Paso 1: En la pestaña **Environment --> Import Dataset**, elegimos la opción acorde a la extensión del archivo.
 
-```{r}
-edad <- c(24, 56, 75, 42, 99)
-nombre_y_apellido <- c("D'artanian estrujillo", "Rigoberta manchuria", "Menganita fulaique",  "Juancito loquillo", "Estanislao leningrado")
-
-base_personas <- data.frame(nombre_y_apellido, edad)
-
-base_personas
+```{r echo=FALSE, out.width='80%', fig.align='center'}
+knitr::include_graphics(here::here("img/import_1.png"))
 ```
 
 
 ---
-# Navengando por objetos: base de datos
+# Chequeamos la operación con alguna función
 
-#### Queremos extraer la **edad** de _Menganita fulaique_:
+```r
+ `head(base_indice_transparencia)`
+```
+
+```{r echo=FALSE}
+head(base_indice_transparencia)
+```
 
 
-```{r}
-base_personas[3,2]
+---
+# Chequeamos la operación con alguna función
+
+```r
+ `str(base_indice_transparencia)`
+```
+
+```{r echo = FALSE}
+str(base_indice_transparencia)
+```
+
+
+---
+# Lectura / importación de datos
+
+- A tener en cuenta respecto a la ruta donde se ubica el archivo:
+
+```{r eval=FALSE}
+base_indice_transparencia <- read.table(
+  file = "/home/pablote/Pablo/Proyectos/Estación R/Consultoría/intro_r_aaip/datos/relevamiento_indice_transparencia_2024.xslx", #<<
+  header = TRUE, 
+  sep = ";", 
+  dec = ",")
 ```
 
 --
 
-```{r echo=FALSE, out.height=350, out.width= 400, fig.align='center'}
-#knitr::include_graphics(here("img", "base_coord_1.png"))
-knitr::include_graphics(here::here("img/base_coord_1.png"))
-```
-
+- Si se la compartimos a otra persona, __se rompe__
+    
+- Si cambiamos de computadora, __se rompe__
+    
+- Si lo cambiamos de lugar, __se rompe__
+   
 ---
-# Navengando por objetos: base de datos
+class: middle, center
 
-#### También podemos consultarle a R por los valores de una columna entera de nuestra base con el símbolo `$`:
-
---
-
-```{r}
-base_personas$nombre_y_apellido
-```
---
-
-
-```{r}
-base_personas$edad
-```
-
-
-
----
-# Navengando por objetos: base de datos
-
-#### Y aplicar una función sobre esa columna
-
-
-```{r}
-mean(base_personas$edad)
-```
-
---
-
-#### 
-```{r}
-summary(base_personas$edad)
-```
-
-
-
----
-class: inverse, middle, center
-
-
-# PRÁCTICA
-
-<html>
-  <div style='float:left'></div>
-  <hr color='#EB811B' size=1px width=1125px>
-</html>
-
-
----
-class: inverse
-
-1. Crear un vector llamado _nombre_ que contenga 6 valores (6 nombres)
-
-1. Extraer el segundo valor del vector creado y asignarlo a un nuevo objeto
-
-
-***
-
-- Dados los siguientes vectores:
-
-```{r}
-localidad <- c("Jujuy", "Jujuy", "La Pampa", "Córdoba", "Jujuy", "Chubut")
-
-tipo_alojamiento <- c("Casa", "Casa", "Depto", "Depto", "Depto", "Casa")
-```
-
-1. Crear un objeto de tipo data.frame (base de datos) que contenga el vector creado (_nombre_) más los dos propuestos (_localidad_ y _tipo_alojamiento_)
-
-1. Extraer del data.frame el valor de la tercar fila y segunda columna.
-
-1. Consultar del data.frame sobre los valores de la columna _tipo_alojamiento_
-
-
-`r countdown(minutes = 5, seconds = 0, update_every = 15)`
+> ## Próxima clase: Armar un proyecto de Trabajo con Rstudio

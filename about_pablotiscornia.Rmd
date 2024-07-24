@@ -7,15 +7,55 @@ links:
   - label: LinkedIn
     url: "https://www.linkedin.com/in/ptiscornia/"
   - label: Twitter
-    url: "https://twitter.com/pabblo_h"
+    url: "https://x.com/estacion_erre"
   - label: GitHub
-    url: "https://github.com/pablotis/"
+    url: "https://github.com/Estacion-R"
   - label: Email
-    url: "mailto:pablotisco@gmail.com"
+    url: "mailto:pablotiscornia@estacion-r.com"
 output:
-  postcards::jolla
+  postcards::trestles
 ---
 
-Sociólogo (UBA), especializado en metodología, producción, procesamiento y comunicación de información estadística. Últimamente enfocado en la mejora de procesos de trabajo vinculados a la administración y difusión de datos.
+## Bio
 
-Ha participado en la organización de la comunidad [R en Buenos Aires](https://renbaires.github.io/). Es coautor en el desarrollo del paquete [eph](https://holatam.github.io/eph/), cuyo principal objetivo es facilitar herramientas y el acceso a datos de la Encuesta Permanente de Hogares - INDEC, mediante el lenguaje de programación `R` y también de los paquetes [comunicacion](https://github.com/dnme-minturdep/comunicacion), [herramientas](https://github.com/dnme-minturdep/herramientas) y [evyth](https://github.com/dnme-minturdep/evyth). 
+Licenciado en Sociología (Universidad de Buenos Aires - UBA), especializado en metodología, recolección, procesamiento, análisis y comunicación de información estadística. Últimamente me encuentro enfocado en la mejora de procesos de trabajo vinculados al tratamiento de datos y en la administración de bases de datos organizacionales.
+
+Todo con **R** bajo el brazo.
+
+
+🔭 Actualmente estoy trabajando como Científico de Datos en [C40 Ciudades](https://www.c40.org/) y como Director de la Escuela de Datos [Estación R](https://estacion-r.netlify.app/).
+
+
+<br>
+
+## Proyectos
+
+- Co-autor del paquete [`{eph}`](https://holatam.github.io/eph/)
+
+- Co-autor del universo de paquetes para el procesamiento de datos en Turismo [dnme-minturdep](https://dnme-minturdep.r-universe.dev/ui#packages)
+
+- [#rtips](https://github.com/Estacion-R). Un bot colaborativo de tips sobre el mundo R.
+
+- [Repositorio de paquetes latinoamericanos](https://github.com/pablotis/asombrosos-paquetes-r-latinoamerica). Un espacio donde juntar y encontrar el desarrollo de paquetes por y para latinoamericanos y latinoamericanas.
+
+
+## Desempeño profesional
+
+
+Ya han pasado más de **`r lubridate::year(lubridate::today()) - 2015` años** vinculado a la estadística y el procesamiento de datos, trabajando en los principales organismos del ámbito público en cuanto a producción de información estadística, como lo son:
+
+- La [**Dirección Nacional de Mercados y Estadística**](https://www.yvera.tur.ar/sinta/) del Ministerio de Turismo y Deportes de la Nación
+
+- El [Instituto Nacional de Estadísticas y Censos (INDEC)](https://www.indec.gob.ar/), específicamente en la Dirección de la **Encuesta Permanente de Hogares (EPH)**
+
+- El **Centro de Estudios para el Desarrollo Económico Metropolitano (CEDEM)** de la [Dirección General de Estadísticas y Censos (DGEyC)](https://www.estadisticaciudad.gob.ar/eyc/) de la Ciudad Autónoma de Buenos Aires.
+
+
+
+## Docencia
+
+- Instructor Certificado de [The Carpentries](https://carpentries.org/).
+
+- Más de `r lubridate::year(lubridate::today()) - 2020` años como docente de programación en R, en instituciones destacadas como la FLACSO, INDEC, IDAES-UNSAM, UTDT, IIGG, ASET, UNGS, entre otras.
+
+
