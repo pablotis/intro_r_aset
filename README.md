@@ -1,20 +1,26 @@
-# Introducción a R para Ciencias Sociales
 
-El taller tiene como principal objetivo introducir a los y las participantes en el mundo de R y la programación para producir información estadística. La idea es centrarse en cómo encarar un proyecto que involucre meter manos en los datos, desde cómo nombrar mis carpetas o archivos, importarlos para acceder a la información, limpiar los datos y procesarlos hasta como visualizar, analizar y comunicar los hallazgos.
+## Presentación
+  
+El taller tiene como principal objetivo introducir a los y las integrantes de la Agencia de Acceso a la Información Pública en el mundo de la programación con R. El objetivo a alcanzar es centrarse en cómo encarar un proyecto que involucre diseñar y llevar a cabo un proyecto de trabajo con la información recolectada por la oficina, que va desde cómo nombrar las carpetas o archivos, leer los datos, limpiarlos, procesarlos hasta como visualizar, analizar y comunicar los hallazgos.
 
 ## ¿Para quién?
 
-Para toda aquella persona que quiera / necesite trabajar con datos de una forma más sistemática, ordenada y productiva. No se requiere conocimientos previos de programación, aunque siempre es de ayuda haberse cruzado al menos con una sintaxis o haber utilizado alguna fórmula en Excel.
+Equipo de trabajo de la Agencia de Acceso a la Información Pública.
 
-Lo de _Ciencias Sociales_ es una excusa! Los ejemplos serán a partir de bases con las que suelo estar cómodo, pero el contenido es válido para cualquier campo/disciplina/profesión.
 
 ## ¿Cómo?
 
-La idea es escribir código, mucho pero mucho código. Si bien habrá secciones expositivas, el curso se plantea generar un espacio de constante práctica y consulta.
+Las clases del taller serán teórico-prácticas. Por cada presentación temática se plantearán ejercicios sobre lo visto, abordando al mismo tiempo las dudas que puedan surgir. Se priorizará la utilización del programa durante la clase y la aplicación práctica sobre los datos que produce el organismo.
 
-## Plataforma de trabajo
+## Cronograma: 
 
-- Nos vemós acá: https://r-intro-aset.netlify.app/index.html 
+__Cantidad de encuentros:__ 5.
 
-- Trabajaremos sobre estos contenidos: https://r-intro-aset.netlify.app/programa.html 
+__Cantidad de horas por encuentro:__ 2hs.
+
+__Día y horario de cursada:__ Miércoles, de 14:30 a 15:30hs y Viernes de 11 a 13hs.
+  
+__Fecha de inicio__: Miércoles 24 de Julio de 2024.
+
+__Fecha de finalización__: Miércoles 7 de agosto de 2024
 
