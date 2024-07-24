@@ -48,7 +48,7 @@
   --code-highlight-color: #23ace4; /* Light blue for code highlights */
   --inverse-text-color: #FFFFFF; /* White for inverse text */
   --inverse-background-color: #28af8c; /* Secondary green for inverse background */
-  --inverse-header-color: #6b579e; /* Violet for inverse header */
+  --inverse-header-color: black; /* Violet for inverse header */
   --title-slide-background-color: #008585; /* Main green for title slides */
   --title-slide-text-color: #FFFFFF; /* White for text on title slides */
   --header-background-color: #28af8c; /* Secondary green for header background */
