@@ -172,6 +172,7 @@ a, a > code {
 .pull-right ~ * {
   clear: both;
 }
+
 img, video, iframe {
   max-width: 100%;
 }

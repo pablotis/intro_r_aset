@@ -214,8 +214,11 @@ library(ggplot2)
 ```
 
 ---
+class: center, middle, hide-logo
 
-```{r echo=FALSE, out.width = '10%', fig.align = 'center'}
+![](../img/clase_3/logo dplyr.png)
+
+```{r echo=FALSE, out.width = '10%', fig.align = 'center', eval=FALSE}
 knitr::include_graphics(here::here("img/clase_3/logo dplyr.png"))
 ```
 
@@ -525,6 +528,7 @@ colnames(base_ind_transp_seleccion_2)
 ```
 
 ---
+class: center, middle
 
 ![](https://imgs.search.brave.com/Frz7Kuv_uvyXQb269pQbZ2-UxWSZ-oIPOgfP4lTWmmU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9naWZk/Yi5jb20vaW1hZ2Vz/L2hpZ2gvc2FjaGEt/YmFyb24tY29oZW4t/dmVyeS1uaWNlLXFq/N2x5YXFudXBueTl6/ODAuZ2lm.gif)
 
@@ -589,7 +593,7 @@ colnames(base_ind_transp_patron2)
 <br>
 
 ---
-#
+class: center, middle
 
 ![](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjEzMW15cWk3bXJ5MzQ0aXQwd2IwenIyN3JseTlucW9nc2R0enY4NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lk023zZqHJ3Zz4rxtV/giphy.gif)
 
@@ -612,6 +616,7 @@ colnames(base_ind_transp_patron3)
 ```
 
 ---
+class: center, middle
 
 ![](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXprbDVsM2l1MmF5dDRjMGY1N2xiNW52dmFscHNsM3NhbDZ5eXc5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NEvPzZ8bd1V4Y/giphy.gif)
 
@@ -639,8 +644,8 @@ colnames(base_ind_transp_tuto)
 ```
 
 ---
-
-![](images/explode.gif)
+class: center, middle, hide-logo
+![](../img/clase_3/explode.gif)
 
 
 ---
@@ -793,7 +798,195 @@ base_filtrada %>%
 | Operador | Descripción                                 |
 |:---------|:--------------------------------------------|
 | `&`      | *y* - Cuando se cumplen ambas condiciones   |
-| `|`      | *o* - Cuando se cumple una u otra condición |
+| `┃`       | *o* - Cuando se cumple una u otra condición |
  
 ]
+
+
+---
+## Caso práctico - Filtro múltiple
+
+<br>
+
+- Debo realizar un análisis de la base de datos para los sujetos obligados de tipo `Universidades` y `Organismos Descentralizados`.
+
+<br>
+
+
+---
+## Caso práctico - Filtro múltiple
+
+- Chequeo qué tipo de organismos existen en la base de trabajo
+
+--
+
+```{r}
+unique(base_ind_transp$`Tipo de organismo`)
+```
+
+---
+## Caso práctico - Filtro múltiple
+
+-   Aplico filtro
+
+```{r}
+base_filtrada <- base_ind_transp |>
+  filter(`Tipo de organismo` == "Universidades" | `Tipo de organismo` == "Organismos Descentralizados")
+```
+
+--
+
+-   Chequeo filtro
+
+```{r}
+unique(base_filtrada$`Tipo de organismo`)
+```
+
+---
+## Caso práctico - Filtro múltiple - Operador `%in%`
+
+-   Aplico filtro
+
+```{r}
+base_filtrada_operador_in <- base_ind_transp |>
+  filter(`Tipo de organismo` %in% c("Universidades", "Organismos Descentralizados"))
+```
+
+--
+
+-   Chequeo filtro
+
+```{r}
+unique(base_filtrada_operador_in$`Tipo de organismo`)
+```
+
+
+---
+class: middle, center, inverse, hide-logo
+
+# **mutate()**
+
+<html><hr color='#EB811B' size=1px width=1600px></html>
+
+<html><p style="color:white;" align:"left">Crea / edita variables (columnas)</p></html>
+
+
+---
+## `mutate()`
+
+<br>
+
+-   La función tiene la siguiente estructura:
+
+<br>
+
+```{r}
+#| eval: false
+#| code-line-numbers: "2"
+base_de_datos %>%
+  mutate(`var_nueva` = var_1 + var_2)
+```
+
+---
+## Caso práctico
+
+- Tenemos la siguiente tabla con los valores del **Índice de Transparencia**...
+
+- Queremos redondear los valores, para poder presentarlos
+
+```{r echo=FALSE}
+base_resultados <- data.frame(
+  sujeto_obligado = c("Instituto Nacional del Teatro", "Instituto Nacional del Cáncer",
+                      "Agencia de Planificación (APLA)", "Oficina Anticorrupción",
+                      "Fundación Miguel Lillo"),
+  indice_transparencia = c(2.5656, 76.23423, 32.123123, 89.1, 65.21331)
+)
+
+base_resultados
+```
+
+---
+## Caso práctico
+
+```{r echo=TRUE, eval=FALSE}
+base_resultados %>%
+  mutate(redondeo = round(indice_transparencia, digits = 1))
+```
+
+```{r echo=FALSE}
+base_resultados %>%
+  mutate(redondeo = round(indice_transparencia, digits = 1))
+```
+
+---
+## Caso práctico
+```{r echo=TRUE, eval=FALSE}
+base_resultados %>%
+  mutate(indice_transparencia = round(indice_transparencia, digits = 1))
+```
+
+```{r echo=FALSE}
+base_resultados %>%
+  mutate(indice_transparencia = round(indice_transparencia, digits = 1))
+```
+
+---
+## `mutate()` + `case_when()`
+
+- `case_when()` = _"Siempre que..."_ 
+
+- Quiero determinado valor en mi nueva variable, _siempre que_ ocurra cierta condición
+
+--
+
+<br>
+
+```{r echo=TRUE, eval=FALSE}
+base_de_datos %>% 
+  mutate(var_nueva = case_when(var_vieja == "a" `~` contenido_a,
+                               var_vieja == "b" `~` contenido_b))
+```
+
+
+---
+## `mutate()` + `case_when()`
+
+- Recodificar variable `Periodo`:
+
+```{r}
+unique(base_ind_transp$Período)
+```
+
+```{r}
+base_recod <- base_ind_transp %>% 
+  mutate(Período = case_when(Período == "ABRIL (Enero - Marzo 2024)" ~ "1er Trim",
+                             Período == "1° Trimestre 2024 (Enero - Marzo)" ~ "1er Trim",
+                             Período == "JULIO (Abril - Junio 2024)" ~ "2do Trim"))
+```
+
+--
+
+```{r}
+unique(base_recod$Período)
+```
+
+
+---
+## Limpieza de datos
+
+```{r}
+library(janitor)
+
+base_limpia <- base_ind_transp %>% 
+  select(`Universidades:`, `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  rename("universidades" = `Universidades:`,
+         "1.a" = `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`)
+```
+
+--
+
+```{r}
+colnames(base_limpia)
+```
+
 
