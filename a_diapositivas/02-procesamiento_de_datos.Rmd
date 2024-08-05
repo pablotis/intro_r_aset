@@ -657,7 +657,7 @@ class: middle, center, inverse, hide-logo
 ---
 ## Ejercitación
 
--   Crear un objeto en donde importamos la base de datos de Alojamientos.
+-   Crear un objeto en donde importamos la base de datos del relevamiento de sujetos obligados
 
 -   Seleccionar 3 variables de la base según el nombre de las mismas y guardar en otro objeto.
 
