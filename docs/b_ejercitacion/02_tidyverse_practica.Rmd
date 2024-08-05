@@ -43,7 +43,7 @@ En primer lugar, importamos la base de datos (podemos descargarla [aquí](https:
 
 <br>
 
-2.2. Generar frecuencia simple de la variable **ESTADO** (cuántas veces aparece cada categoría). La función `count()` puede ser de ayuda:
+2.2. Generar frecuencia simple de la variable **Tipo de organismo** (cuántas veces aparece cada categoría). La función `count()` puede ser de ayuda:
 
 ```{r}
 
