@@ -657,7 +657,7 @@ class: middle, center, inverse, hide-logo
 ---
 ## Ejercitación
 
--   Crear un objeto en donde importamos la base de datos de Alojamientos.
+-   Crear un objeto en donde importamos la base de datos del relevamiento de sujetos obligados
 
 -   Seleccionar 3 variables de la base según el nombre de las mismas y guardar en otro objeto.
 
@@ -991,10 +991,10 @@ colnames(base_limpia)
 
 
 
-              <!-- ## `mutate()` + `case_when()` = Recodificación -->
+<!-- ## `mutate()` + `case_when()` = Recodificación -->
               
-              <!-- <br>  -->
-              <!-- <br>  -->
+<!-- <br>  -->
+<!-- <br>  -->
               
               <!-- - Necesito agregarle una etiqueta a la variable `indice_tiempo` (pasar de `2020` a `"Año 2020"`) -->
               

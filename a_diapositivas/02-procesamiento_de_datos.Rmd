@@ -991,10 +991,10 @@ colnames(base_limpia)
 
 
 
-              <!-- ## `mutate()` + `case_when()` = Recodificación -->
+<!-- ## `mutate()` + `case_when()` = Recodificación -->
               
-              <!-- <br>  -->
-              <!-- <br>  -->
+<!-- <br>  -->
+<!-- <br>  -->
               
               <!-- - Necesito agregarle una etiqueta a la variable `indice_tiempo` (pasar de `2020` a `"Año 2020"`) -->
               
