@@ -30,10 +30,8 @@ navbar:
           href: a_diapositivas/01b-proyecto_de_trabajo.html
         - text: "Módulo III - Procesamiento de datos"
           href: a_diapositivas/02-procesamiento_de_datos.html
-          # - text: "Modulo 02 - Herramientas de procesamiento de datos"
-          #   href: a_diapositivas/02_tidyverse.html
-          # - text: "Modulo 03 - Herramientas para la visualizacion de datos"
-          #   href: a_diapositivas/03_visualizacion.html
+        - text: "Modulo IV - Visualizacion de datos"
+          href: a_diapositivas/03-visualizacion_de_datos.html
           # - text: "Módulo 04 - Informes con Rmarkdown"
           #   href: a_diapositivas/04_informes.html
     - text: "Ejercitacion"
@@ -47,4 +45,6 @@ navbar:
       menu:
         - text: "relevamiento_indice_transparencia_2024.xlsx"
           href: datos/relevamiento_indice_transparencia_2024.xlsx
+        - text: "salida_visualizaciones.xlsx"
+          href: datos/output_visualizaciones_2024-07-23.xlsx
 output: distill::distill_article

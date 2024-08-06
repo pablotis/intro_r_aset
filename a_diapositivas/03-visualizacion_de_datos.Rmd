@@ -1,0 +1,570 @@
+---
+title: "Visualización de datos con `{ggplot2}`"
+subtitle: "<a style='float:left'></div><hr color='#EB811B' size=1px width=1125px>"
+author: '<a href="https://linktr.ee/estacion_r"><img src="../estilo/logo/Logo_PNG_Alta_Mesa de trabajo 1 copia 4.png" alt="estacion-R logo" style="width:320px;height:270px;">
+</a>'
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: ../estilo/presentation_styles.css
+    includes:
+      after_body: ../estilo/insert-logo.html
+    lib_dir: libs
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+---
+
+
+```{r, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+#knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE)
+
+options(htmltools.dir.version = FALSE,
+        tibble.width = NULL)
+
+knitr::opts_chunk$set(collapse = TRUE,
+                      fig.retina = 3,
+                      fig.width = 10,
+                      out.width = 300, ### control plot size
+                      #cache = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "", 
+                      cache = FALSE)
+
+
+library(flipbookr)
+library(tidyverse)
+library(xaringan)
+library(xaringanthemer)
+library(xaringanExtra)
+library(here)
+library(countdown)
+```
+
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+
+xaringanExtra::style_panelset_tabs(
+  active_foreground = "#0051BA",
+  hover_foreground = "#d22",
+  font_family = "Roboto"
+)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r}
+#| include: false
+#| echo: false
+library(rio)
+base_ind_transp <- import(here::here("datos/relevamiento_indice_transparencia_2024.xlsx"))
+base_viz <- import(here::here("datos/output_visualizaciones_2024-07-23.xlsx")) 
+```
+
+
+
+## ¿Qué vimos?
+
+<br>
+
+✅ Conceptos básicos de R
+
+<br>
+
+✅ Pensar un proyecto de datos con R
+
+<br>
+
+✅ Procesamiento de datos con `{tidyverse}`
+
+
+---
+## Hoja de Ruta
+
+<br>
+
+📌 ¿Por qué visualizar datos?
+
+📌 Gramática de los gráficos y `{ggplot2}`
+
+      - Capas y el operador `+` (más)
+
+📌 Armando un gráfico de barras (columnas)
+
+      - Función `geom_col()`
+
+📌 Chapa y pintura de un gráfico (atributos)    
+
+
+---
+## Configuración para esta clase
+
+<br>
+
+-   Armar un proyeto de trabajo nuevo o abrir aquel con el que veníamos trabajando
+
+-   Cargar la base que surge del procesamiento del índice [**(click acá para descarga)**](https://estacion-r.github.io/intro_r_aaip/datos/output_visualizaciones_2024-07-23.xlsx) y chequear que esté en la carpeta `datos`
+
+-   Crear un **script** de trabajo
+
+-   Carga la librería `{tidyverse}`
+
+
+---
+class: middle, center, logo-hide
+
+# ¿Por qué visualizar datos?
+
+<html>
+
+<hr color='#EB811B' size=1px width=1600px>
+
+</html>
+
+
+---
+## ¿Por qué visualizar?
+
+<br> 
+
+- _"La visualización es el proceso de hacer visibles los contrastes, ritmos y eventos que los datos expresan, que no podemos percibir cuando vienen en forma de áridas listas de números y categorías."_ [^1]
+
+<br>
+  
+- Interpretar / decodificar la información de forma visual
+
+<br>
+
+- Guiar hacia el hallazago
+
+<br>
+
+[^1]: https://bitsandbricks.github.io/ciencia_de_datos_gente_sociable/visualizacion.html
+
+
+---
+class: center, middle, logo-hide
+
+# ggplot2
+
+<html>
+<p style="color:grey;" align:"left">Una forma de visualizar</p>
+</html>
+
+
+---
+## __¿Qué es `{ggplot2}`?__
+
+
+<br>
+
+- Una implementación del sistema **Grammar of graphics** (Wilkinson, 2005).
+
+<br>
+
+- Un esquema pensado en capas (datos --> plano (ejes **x** e **y**) --> geometrías)
+
+<br>
+
+- Un paquete de funciones de aplicación intuitiva.
+
+---
+## __¿Por qué `{ggplot2}`?__
+
+
+- Tiene un marco de referencia (El grammar of graphics)
+
+--
+
+- Flexible, con especificaciones a nivel de capas.
+
+--
+
+- Sistema de `themes`, que permiten _pulir_ la apariencia del gráfico
+
+--
+
+- Decenas de extensiones para ampliar la potencia del paquete
+
+--
+
+- Comunidad activa y con mucha predisposición a ayudar.
+
+
+---
+# ¿A dónde vamos?
+
+```{r}
+library(tidyverse)
+library(rio)
+
+# Importo base
+base_viz <- import(here::here("datos/output_visualizaciones_2024-07-23.xlsx")) 
+```
+
+```{r}
+head(base_viz)
+```
+
+
+---
+## Preparo los datos
+
+- Calculo el promedio total de los índices para todos los organismos
+
+```{r}
+base_grafico <- base_viz |>
+  summarise(prom_ta = mean(TA),
+            prom_tp = mean(TP),
+            prom_ti = mean(IT))
+```
+
+```{r}
+base_grafico
+```
+
+---
+## Preparo los datos
+
+```{r}
+base_grafico <- base_grafico %>% 
+  pivot_longer(cols = starts_with("prom"), 
+               names_to = "tipo_indice",
+               values_to = "promedio")
+```
+
+```{r}
+base_grafico
+```
+
+---
+## Armo gráfico
+
+```{r echo=FALSE, out.width="60%", fig.align='center'}
+ggplot(data = base_grafico,
+       mapping = aes(x = tipo_indice,
+                         y = promedio)) +
+  geom_col(aes(fill = tipo_indice)) +
+  geom_text(aes(label = round(promedio, 1),
+                vjust = -0.5)) +
+  geom_hline(yintercept = 0) +
+  labs(title = "Promedio total de los índices",
+       subtitle = "Argentina, año 2024",
+       x = "Tipo de índice",
+       y = "Valor del índice",
+       caption = "Fuente: AAIP") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+---
+## El código
+
+```{r eval=FALSE}
+ggplot(data = base_grafico,
+       mapping = aes(x = tipo_indice,
+                         y = promedio)) +
+  geom_col(aes(fill = tipo_indice)) +
+  geom_hline(yintercept = 0) +
+  
+  ## Etiquetas
+  geom_text(aes(label = round(promedio, 1),
+                vjust = -0.5)) +
+  
+  ### Titulos
+  labs(title = "Promedio total de los índices",
+       subtitle = "Argentina, año 2024",
+       x = "Tipo de índice",
+       y = "Valor del índice",
+       caption = "Fuente: AAIP") +
+  
+  ## Estetica
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+---
+# ¿Por dónde empezamos?
+
+## Cargamos el paquete
+
+```{r}
+library(ggplot2)
+```
+
+<br>
+
+o...
+
+<br>
+
+```{r}
+library(tidyverse)
+```
+
+---
+## Gráfico en clave de capas
+
+<br>
+
+3 Capas son las indispensables al pensar nuestro gráfico:
+
+
+---
+## Gráfico en clave de capas
+
+
+- Los **datos** (argumento: `data =`):
+
+    - El dataframe que sirve de insumo
+
+<br>
+
+---
+## Gráfico en clave de capas
+
+
+- Los **datos** (argumento: `data =`):
+
+    - El dataframe que sirve de insumo
+
+<br>
+
+- Las **aesthetics** (función `aes()`:
+
+    - Defino el vínculo entre los datos y las propiedades visuales (ejes x e y, por ej.)
+
+
+---
+## Gráfico en clave de capas
+
+
+- Los **datos** (argumento: `data =`):
+
+    - El dataframe que sirve de insumo
+
+<br>
+
+- Las **aesthetics** (función `aes()`:
+
+    - Defino el vínculo entre los datos y las propiedades visuales (ejes x e y, por ej.)
+
+<br>
+
+- Las **geometrías** (función `geom_*()`:
+
+    - La geometría con la que se representan los datos
+
+
+---
+## Gráfico en clave de capas
+
+<br>
+
+- **Pregunta-problema: Quiero representar los valores totales de los índices:**
+
+    - Transparencia Activa
+
+    - Transparencia Proactiva
+
+    - Índice de Transparencia
+
+---
+## Gráfico en clave de capas
+
+- Preparo los datos:
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(rio)
+
+base_viz <- import("datos/output_visualizaciones_2024-07-23.xlsx")
+
+base_grafico <- base_viz |>
+  summarise(prom_ta = mean(TA),
+            prom_tp = mean(TP),
+            prom_ti = mean(IT)) %>% 
+   pivot_longer(cols = starts_with("prom"), 
+               names_to = "tipo_indice",
+               values_to = "promedio")
+```
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(rio)
+
+base_viz <- import(here::here("datos/output_visualizaciones_2024-07-23.xlsx")) 
+
+base_grafico <- base_viz |>
+  summarise(prom_ta = mean(TA),
+            prom_tp = mean(TP),
+            prom_ti = mean(IT)) %>% 
+   pivot_longer(cols = starts_with("prom"), 
+               names_to = "tipo_indice",
+               values_to = "promedio")
+```
+
+---
+## Gráfico en clave de capas
+
+<br>
+
+- Así queda nuestra tabla:
+
+```{r}
+base_grafico
+```
+
+---
+## Gráfico en clave de capas
+
+
+```{r}
+#| label: ggplot-aesthetics-outside
+#| output-location: column
+#| code-line-numbers: "1|2"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio))
+
+```
+
+---
+## Gráfico en clave de capas
+
+```{r}
+#| label: ggplot-aesthetics-outside-geom
+#| output-location: column
+#| code-line-numbers: "3"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col()
+
+```
+
+---
+class: center, middle, logo-hide
+
+# Chapa y pintura
+
+---
+## Chapa y pintura - Relleno
+
+```{r}
+#| label: ggplot-aesthetics-outside-fill
+#| output-location: column
+#| code-line-numbers: "3"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col(fill = "red")
+```
+
+---
+## Chapa y pintura - Relleno
+
+```{r}
+#| label: ggplot-aesthetics-outside-fill-aes
+#| output-location: column
+#| code-line-numbers: "3"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col(aes(fill = tipo_indice))
+```
+
+---
+## Chapa y pintura - Contorno
+
+```{r}
+#| label: ggplot-aesthetics-outside-color
+#| output-location: column
+#| code-line-numbers: "4"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col(aes(fill = tipo_indice),
+           color = "black")
+```
+
+---
+## Chapa y pintura - Referencias
+
+```{r}
+#| label: ggplot-aesthetics-outside-labs1
+#| output-location: column
+#| code-line-numbers: "5"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col(aes(fill = tipo_indice),
+           color = "black") +
+  labs(title = "Promedio Total por tipo de índice")
+```
+
+---
+## Chapa y pintura - Referencias
+
+```{r}
+#| label: ggplot-aesthetics-outside-labs2
+#| output-location: column
+#| code-line-numbers: "5,6,7,8,9"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col(aes(fill = tipo_indice),
+           color = "black") +
+  labs(title = "Promedio Total por tipo de índice",
+       subtitle = "Argentina, año 2024",
+       x = "Tipo de índice",
+       y = "Valor del índice",
+       caption = "Fuente: AAIP")
+```
+
+---
+## Chapa y pintura - theme
+
+```{r}
+#| label: ggplot-aesthetics-outside-theme
+#| output-location: column
+#| code-line-numbers: "10"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col(aes(fill = tipo_indice),
+           color = "black") +
+  labs(title = "Promedio Total por tipo de índice",
+       subtitle = "Argentina, año 2024",
+       x = "Tipo de índice",
+       y = "Valor del índice",
+       caption = "Fuente: AAIP") +
+  theme_minimal()
+```
+
+---
+## Chapa y pintura - theme
+
+```{r}
+#| label: ggplot-aesthetics-outside-theme2
+#| output-location: column
+#| code-line-numbers: "11"
+ggplot(data = base_grafico,
+       aes(x = tipo_indice, y = promedio)) +
+  geom_col(aes(fill = tipo_indice),
+           color = "black") +
+  labs(title = "Promedio Total por tipo de índice",
+       subtitle = "Argentina, año 2024",
+       x = "Tipo de índice",
+       y = "Valor del índice",
+       caption = "Fuente: AAIP") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```

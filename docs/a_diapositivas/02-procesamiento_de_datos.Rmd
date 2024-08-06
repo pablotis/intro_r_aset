@@ -989,493 +989,149 @@ base_limpia <- base_ind_transp %>%
 colnames(base_limpia)
 ```
 
+---
+class: middle, center, inverse, hide-logo
+
+# **group_by() + summarise()**
+
+<html><hr color='#EB811B' size=1px width=1600px></html>
+
+<html><p style="color:white;" align:"left">Agrupamiento / Cálculos</p></html>
+
+---
+# `summarise()`
+
+- Caso: Quiero sumar el puntaje total para el ítem **1.a (_"¿Informa al menos uno de los elementos solicitados?"_)**
+
+--
+
+Primero: Conocer la variable sobre la cuál voy a trabajar:
+
+- ¿Es numérica?
+- Está preparada para calcular? (recodificación, valores de texto o outliers, etc.)
+
+Veamos:
+
+---
+# `summarise()`
+
+1. Recodifico el nombre de la variable, para hacerla más amena de trabajar en el código
+
+```{r}
+base_trabajo <- base_ind_transp %>% 
+  select(Período, `Tipo de organismo`, `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  rename(
+    "periodo" = Período,
+    "tipo_organismo" = `Tipo de organismo`,
+    "item_1a" = `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`)
+
+head(base_trabajo)
+
+```
+
+---
+# `summarise()`
+
+2. Chequeo qué valores figuran en la variable:
+
+```{r}
+unique(base_trabajo$item_1a)
+```
+
+---
+# `summarise()`
+
+4. Recodifico la variable de texto a número (códigos), donde:
+
+"Si" == 1
+
+y
+
+"No" == 2
+
+```{r}
+base_trabajo <- base_trabajo %>% 
+  mutate(item_1a = case_when(item_1a == "Si" ~ 1,
+                             item_1a == "No" ~ 0))
+
+unique(base_trabajo$item_1a)
+```
 
 
-<!-- ## `mutate()` + `case_when()` = Recodificación -->
-              
-<!-- <br>  -->
-<!-- <br>  -->
-              
-              <!-- - Necesito agregarle una etiqueta a la variable `indice_tiempo` (pasar de `2020` a `"Año 2020"`) -->
-              
-              <!-- ## `mutate()` + `case_when()` = Recodificación -->
-              
-              <!-- <br> -->
-              
-              <!-- ::: columns -->
-              <!-- ::: {.column width="60%"} -->
-              <!-- ```{r} -->
-              <!-- #| eval: false -->
-              <!-- #| code-line-numbers: "2" -->
-              <!-- df_lugar_tot <- df_puna |>  -->
-                <!--   select(indice_tiempo, localidad, plazas) -->
-                <!-- ``` -->
-                <!-- ::: -->
-                
-                <!-- ::: {.column width="40%"} -->
-                <!-- ```{r} -->
-                <!-- #| echo: false -->
-                <!-- df_puna |>  -->
-                <!--   select(indice_tiempo, localidad, plazas) -->
-                <!-- ``` -->
-                <!-- ::: -->
-                <!-- ::: -->
-                
-                <!-- ## `mutate()` + `case_when()` = Recodificación -->
-                
-                <!-- <br> -->
-                
-                <!-- ::: columns -->
-                <!-- ::: {.column width="60%"} -->
-                <!-- ```{r} -->
-                <!-- #| eval: false -->
-                <!-- #| code-line-numbers: "3,4,5" -->
-                <!-- df_puna_recod <- df_puna |>  -->
-                  <!--   select(indice_tiempo, localidad, plazas) |>  -->
-                  <!--   mutate(anio_etiqueta = case_when(indice_tiempo == 2020 ~ "Año 2020", -->
-                                                            <!--                                       indice_tiempo == 2021 ~ "Año 2021", -->
-                                                            <!--                                       indice_tiempo == 2022 ~ "Año 2022")) -->
-                  <!-- ``` -->
-                  <!-- ::: -->
-                  
-                  <!-- ::: {.column width="40%"} -->
-                  <!-- ```{r} -->
-                  <!-- #| echo: false -->
-                  <!-- df_puna |>  -->
-                  <!--   select(indice_tiempo, localidad, plazas) |>  -->
-                  <!--   mutate(anio_etiqueta = case_when(indice_tiempo == 2020 ~ "Año 2020", -->
-                                                            <!--                                       indice_tiempo == 2021 ~ "Año 2021", -->
-                                                            <!--                                       indice_tiempo == 2022 ~ "Año 2022")) -->
-                  <!-- ``` -->
-                  <!-- ::: -->
-                  <!-- ::: -->
-                  
-                  
-                  <!-- ## `mutate()` + `case_when()` = Recodificación -->
-                  
-                  <!-- <br> -->
-                  <!-- <br> -->
-                  
-                  <!-- - Necesito caracterizar al sector hotelero y compararlo con el resto de los alojamientos -->
-                  
-                  <!-- ## `mutate()` + `case_when()` = Recodificación -->
-                  
-                  <!-- <br> -->
-                  
-                  <!-- ::: columns -->
-                  <!-- ::: {.column width="60%"} -->
-                  <!-- ```{r} -->
-                  <!-- #| eval: false -->
-                  <!-- #| code-line-numbers: "3,4" -->
-                  <!-- df_puna_agrup <- df_puna |>  -->
-                    <!--   select(tipo, plazas) |>  -->
-                    <!--   mutate(tipo_agrupado = case_when(tipo == "Hoteleros" ~ "Hoteleros", -->
-                                                              <!--                                    .default = "Otros")) -->
-                    <!-- ``` -->
-                    <!-- ::: -->
-                    
-                    <!-- ::: {.column width="40%"} -->
-                    <!-- ```{r} -->
-                    <!-- #| echo: false -->
-                    <!-- df_puna |>  -->
-                    <!--   select(tipo, plazas) |>  -->
-                    <!--   mutate(tipo_agrupado = case_when(tipo == "Hoteleros" ~ "Hoteleros", -->
-                                                              <!--                                    .default = "Otros")) -->
-                    <!-- ``` -->
-                    <!-- ::: -->
-                    <!-- ::: -->
-                    
-                    
-                    <!-- ## `mutate()` + `case_when()` = Recodificación -->
-                    
-                    <!-- <br> -->
-                    <!-- <br> -->
-                    
-                    <!-- - Necesito Reagrupar unicamente a los hoteles de 1, 2 y 3 estrellas, para compararlos frente al resto: -->
-                    
-                    
-                    <!-- ## `mutate()` + `case_when()` = Recodificación -->
-                    
-                    <!-- <br> -->
-                    
-                    <!-- ::: columns -->
-                    <!-- ::: {.column width="60%"} -->
-                    <!-- ```{r} -->
-                    <!-- #| eval: false -->
-                    <!-- #| code-line-numbers: "3,4,5,6" -->
-                    <!-- df_puna_agrup_hotel <- df_puna |>  -->
-                      <!--   select(clasificacion_minturdep, plazas) |>  -->
-                      <!--   mutate(clasif_agrupado = case_when( -->
-                                                                   <!--     clasificacion_minturdep %in% c("Hotel 1 estrella",  -->
-                                                                                                             <!--                                    "Hotel 2 estrellas", -->
-                                                                                                             <!--                                    "Hotel 3 estrellas") ~ "Hotel hasta 3 estrellas", -->
-                                                                   <!--     .default = "Otros")) -->
-                      <!-- ``` -->
-                      <!-- ::: -->
-                      
-                      <!-- ::: {.column width="40%"} -->
-                      <!-- ```{r} -->
-                      <!-- #| echo: false -->
-                      <!-- df_puna |>  -->
-                      <!--   select(clasificacion_minturdep, plazas) |>  -->
-                      <!--   mutate(clasif_agrupado = case_when( -->
-                                                                   <!--     clasificacion_minturdep %in% c("Hotel 1 estrella",  -->
-                                                                                                             <!--                                    "Hotel 2 estrellas", -->
-                                                                                                             <!--                                    "Hotel 3 estrellas") ~ "Hotel hasta 3 estrellas", -->
-                                                                   <!--     .default = "Otros")) -->
-                      <!-- ``` -->
-                      <!-- ::: -->
-                      <!-- ::: -->
-                      
-                      <!-- # Ejercitación grupal -->
-                      
-                      <!-- ## Ejercitación -->
-                      
-                      <!-- - Necesito reagrupar la variable `clasificacion_minturdep` para quedarme con 2 categorìas: -->
-                      
-                      <!--     - `Camping` -->
-                      
-                      <!--     - `Otros` -->
-                      
-                      <!-- Dada la consigna anterior, rellenar en el campo marcado con `______` con el código necesario para ejecutar la sentencia: -->
-                      
-                      <!-- ```r -->
-                      <!-- df_puna |>  -->
-                      <!--   select(localidad, ________) |>  -->
-                      <!--   mutate(nueva_clasificacion = case_when(________ == "Camping" ~ "Camping", -->
-                                                                      <!--                                          .default = "Otros")) -->
-                      <!-- ``` -->
-                      
-                      
-                      <!-- # **summarise()** -->
-                      
-                      <!-- <html> -->
-                      
-                      <!-- <hr color='#EB811B' size=1px width=1600px> -->
-                        
-                        <!-- </html> -->
-                        
-                        <!-- <html> -->
-                        
-                        <!-- ```{=html} -->
-                        <!-- <p style="color:grey;" align:"left">Resume información y realiza cálculos</p> -->
-                          <!-- ``` -->
-                          <!-- </html> -->
-                          
-                          
-                          <!-- ## `summarise()` -->
-                          
-                          <!-- <br> -->
-                          
-                          <!-- - Antes: -->
-                          
-                          <!-- ```{r} -->
-                          <!-- sum(df_puna$plazas) -->
-                          <!-- ``` -->
-                          
-                          <!-- ## `summarise()` -->
-                          
-                          <!-- <br> -->
-                          
-                          <!-- - Ahora: -->
-                          
-                          <!-- ```{r} -->
-                          <!-- #| code-line-numbers: "2" -->
-                          <!-- df_puna |>  -->
-                          <!--   summarise(cant_plazas = sum(plazas)) -->
-                          <!-- ``` -->
-                          
-                          <!-- ## `summarise()` -->
-                          
-                          <!-- <br> -->
-                          
-                          <!-- - Ahora: -->
-                          
-                          <!-- ```{r} -->
-                          <!-- #| code-line-numbers: "2,3" -->
-                          <!-- df_puna |>  -->
-                          <!--   summarise(cant_plazas = sum(plazas), -->
-                                             <!--             prom_plazas = mean(plazas)) -->
-                          <!-- ``` -->
-                          
-                          <!-- ## `summarise()` -->
-                          
-                          <!-- <br> -->
-                          
-                          <!-- - Ahora: -->
-                          
-                          <!-- ```{r} -->
-                          <!-- #| code-line-numbers: "2:5" -->
-                          <!-- df_puna |>  -->
-                          <!--   summarise(cant_plazas = sum(plazas), -->
-                                             <!--             prom_plazas = mean(plazas), -->
-                                             <!--             min_plazas  = min(plazas), -->
-                                             <!--             max_plazas  = max(plazas)) -->
-                          <!-- ``` -->
-                          
-                          
-                          
-                          <!-- # **group_by()** -->
-                          
-                          <!-- <html> -->
-                          
-                          <!-- <hr color='#EB811B' size=1px width=1600px> -->
-                            
-                            <!-- </html> -->
-                            
-                            <!-- <html> -->
-                            
-                            <!-- ```{=html} -->
-                            <!-- <p style="color:grey;" align:"left">Ayuda a ejecutar una función de forma agrupada</p> -->
-                              <!-- ``` -->
-                              <!-- </html> -->
-                              
-                              
-                              <!-- ## `group_by()`  -->
-                              
-                              <!-- <br> -->
-                              
-                              <!-- - Antes: -->
-                              
-                              <!-- ```{r} -->
-                              <!-- #| code-line-numbers: "2:5" -->
-                              <!-- df_puna |>  -->
-                              <!--   summarise(cant_plazas = sum(plazas), -->
-                                                 <!--             prom_plazas = mean(plazas), -->
-                                                 <!--             min_plazas  = min(plazas), -->
-                                                 <!--             max_plazas  = max(plazas)) -->
-                              <!-- ``` -->
-                              
-                              
-                              <!-- ## `group_by()`  -->
-                              
-                              <!-- <br> -->
-                              
-                              <!-- - Después: -->
-                              
-                              <!-- ```{r} -->
-                              <!-- #| code-line-numbers: "2" -->
-                              <!-- df_puna |> -->
-                              <!--   group_by(indice_tiempo) |>  -->
-                              <!--   summarise(cant_plazas = sum(plazas), -->
-                                                 <!--             prom_plazas = mean(plazas), -->
-                                                 <!--             min_plazas  = min(plazas), -->
-                                                 <!--             max_plazas  = max(plazas)) -->
-                              <!-- ``` -->
-                              
-                              <!-- ## input / output -->
-                              
-                              <!-- <br> -->
-                              
-                              <!-- ::: columns -->
-                              <!-- ::: {.column width="50%"} -->
-                              
-                              <!-- ![](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJ6NDl6MGtpbnE4bng3dGM5aDFtdDlpMXBpcDN3ZHlheWh5OWY3biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/adNxtO8PpNOPS/giphy.gif) -->
-                              
-                              <!-- ::: -->
-                              
-                              <!-- ::: {.column width="50%"} -->
-                              
-                              <!-- - Toda función tiene un `input` (ingredientes 🧂🌾🧄) y un `output` (la torta 🎂) -->
-                              
-                              <!-- ::: -->
-                              <!-- ::: -->
-                              
-                              <!-- ## input / output -->
-                              
-                              <!-- <br> -->
-                              
-                              <!-- - ¿Cuál es el output del `summarise()`? -->
-                              
-                              <!-- ## input / output -->
-                              
-                              <!-- <br> -->
-                              
-                              <!-- ```{r} -->
-                              <!-- # Creo objeto -->
-                              <!-- tabla_puna <- df_puna |> -->
-                                <!--   group_by(indice_tiempo) |>  -->
-                                <!--   summarise(cant_plazas = sum(plazas), -->
-                                                   <!--             prom_plazas = mean(plazas), -->
-                                                   <!--             min_plazas  = min(plazas), -->
-                                                   <!--             max_plazas  = max(plazas)) -->
-                                
-                                <!-- # Chequeo tipo de objeto -->
-                                <!-- class(tabla_puna) -->
-                                <!-- ``` -->
-                                
-                                <!-- ## input / output -->
-                                
-                                <!-- <br> -->
-                                
-                                <!-- - ¿Y qué puedo hacer sobre un data frame? -->
-                                
-                                
-                                <!-- ## input / output -->
-                                
-                                <!-- <br> -->
-                                
-                                <!-- ::: columns -->
-                                <!-- :::{.column widt="50%} -->
-<!-- ```{r} -->
-<!-- #| code-line-numbers: "2" -->
-<!-- #| eval: false -->
-<!-- tabla_puna |>  -->
-<!--   filter(indice_tiempo == 2022) -->
-<!-- ``` -->
-<!-- ::: -->
+---
+# `summarise()`
 
-<!-- :::{.column widt="50%} -->
-                                <!-- ```{r} -->
-                                <!-- #| echo: false -->
-                                <!-- tabla_puna |>  -->
-                                <!--   filter(indice_tiempo == 2022) -->
-                                <!-- ``` -->
-                                <!-- ::: -->
-                                <!-- ::: -->
-                                
-                                <!-- ## input / output -->
-                                
-                                <!-- <br> -->
-                                
-                                <!-- ::: columns -->
-                                <!-- :::{.column widt="50%} -->
-<!-- ```{r} -->
-<!-- #| code-line-numbers: "3" -->
-<!-- #| eval: false -->
-<!-- tabla_puna |>  -->
-<!--   filter(indice_tiempo == 2022) |>  -->
-<!--   select(indice_tiempo, cant_plazas) -->
-<!-- ``` -->
-<!-- ::: -->
+- ¡Todo listo para calcular!
 
-<!-- :::{.column widt="50%} -->
-                                <!-- ```{r} -->
-                                <!-- #| echo: false -->
-                                <!-- tabla_puna |>  -->
-                                <!--   filter(indice_tiempo == 2022) |>  -->
-                                <!--   select(indice_tiempo, cant_plazas) -->
-                                <!-- ``` -->
-                                <!-- ::: -->
-                                <!-- ::: -->
-                                
-                                
-                                <!-- ## `tidyverse` en acción -->
-                                
-                                <!-- <br> -->
-                                
-                                <!-- ![](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExazY5ZnJvaWsxYnp4bDZ2amtjOGhpc2ZxaGNobDVpOGlwa3VwcHhlZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sG4zmff2zDOp7t2MNA/giphy.gif) -->
-                                
-                                <!-- ## `tidyverse` en acción -->
-                                
-                                <!-- ::: columns -->
-                                <!-- :::{.column widt="50%} -->
-<!-- ```{r} -->
-<!-- #| code-line-numbers: "2" -->
-<!-- #| eval: false -->
-<!-- df_puna |>  -->
-<!--   select(indice_tiempo, tipo, plazas) -->
-<!-- ``` -->
-<!-- ::: -->
+--
 
-<!-- :::{.column widt="50%} -->
-                                <!-- ```{r} -->
-                                <!-- #| echo: false -->
-                                <!-- df_puna |>  -->
-                                <!--   select(indice_tiempo, tipo, plazas) -->
-                                <!-- ``` -->
-                                <!-- ::: -->
-                                <!-- ::: -->
-                                
-                                
-                                <!-- ## `tidyverse` en acción -->
-                                
-                                <!-- ::: columns -->
-                                <!-- :::{.column widt="50%} -->
-<!-- ```{r} -->
-<!-- #| code-line-numbers: "3" -->
-<!-- #| eval: false -->
-<!-- df_puna |>  -->
-<!--   select(indice_tiempo, tipo, plazas) |>  -->
-<!--   filter(indice_tiempo %in% c(2021, 2022)) -->
-<!-- ``` -->
-<!-- ::: -->
+```{r}
+base_trabajo %>% 
+  summarise(suma_item = sum(item_1a))
+```
 
-<!-- :::{.column widt="50%} -->
-                                <!-- ```{r} -->
-                                <!-- #| echo: false -->
-                                <!-- df_puna |>  -->
-                                <!--   select(indice_tiempo, tipo, plazas) |>  -->
-                                <!--   filter(indice_tiempo %in% c(2021, 2022)) -->
-                                <!-- ``` -->
-                                <!-- ::: -->
-                                <!-- ::: -->
-                                
-                                
-                                <!-- ## `tidyverse` en acción -->
-                                
-                                <!-- ::: columns -->
-                                <!-- :::{.column widt="50%} -->
-<!-- ```{r} -->
-<!-- #| code-line-numbers: "4" -->
-<!-- #| eval: false -->
-<!-- df_puna |>  -->
-<!--   select(indice_tiempo, tipo, plazas) |>  -->
-<!--   filter(indice_tiempo %in% c(2021, 2022)) |>  -->
-<!--   mutate(tipo_recod = case_when(tipo == "Hoteleros" ~ "Hoteleros", -->
-<!--                                 .default = "Otros")) -->
-<!-- ``` -->
-<!-- ::: -->
+--
 
-<!-- :::{.column widt="50%} -->
-                                <!-- ```{r} -->
-                                <!-- #| echo: false -->
-                                <!-- df_puna |>  -->
-                                <!--   select(indice_tiempo, tipo, plazas) |>  -->
-                                <!--   filter(indice_tiempo %in% c(2021, 2022)) |>  -->
-                                <!--   mutate(tipo_recod = case_when(tipo == "Hoteleros" ~ "Hoteleros", -->
-                                                                       <!--                                 .default = "Otros")) -->
-                                <!-- ``` -->
-                                <!-- ::: -->
-                                <!-- ::: -->
-                                
-                                <!-- ## `tidyverse` en acción -->
-                                
-                                <!-- ::: columns -->
-                                <!-- :::{.column widt="50%} -->
-<!-- ```{r} -->
-<!-- #| code-line-numbers: "6,7,8" -->
-<!-- #| eval: false -->
-<!-- df_puna |>  -->
-<!--   select(indice_tiempo, tipo, plazas) |>  -->
-<!--   filter(indice_tiempo %in% c(2021, 2022)) |>  -->
-<!--   mutate(tipo_recod = case_when(tipo == "Hoteleros" ~ "Hoteleros", -->
-<!--                                 .default = "Otros")) |>  -->
-<!--   group_by(indice_tiempo, tipo_recod) |>  -->
-<!--   summarise(cant_plazas = sum(plazas), -->
-<!--             prom_plazas = mean(plazas)) -->
-<!-- ``` -->
-<!-- ::: -->
+```{r}
+base_trabajo %>% 
+  summarise(suma_item = sum(item_1a),
+            media_item = mean(item_1a))
+```
 
-<!-- :::{.column widt="50%} -->
-                                <!-- ```{r} -->
-                                <!-- #| echo: false -->
-                                <!-- df_puna |>  -->
-                                <!--   select(indice_tiempo, tipo, plazas) |>  -->
-                                <!--   filter(indice_tiempo %in% c(2021, 2022)) |>  -->
-                                <!--   mutate(tipo_recod = case_when(tipo == "Hoteleros" ~ "Hoteleros", -->
-                                                                       <!--                                 .default = "Otros")) |>  -->
-                                <!--   group_by(indice_tiempo, tipo_recod) |>  -->
-                                <!--   summarise(cant_plazas = sum(plazas), -->
-                                                   <!--             prom_plazas = mean(plazas)) -->
-                                <!-- ``` -->
-                                <!-- ::: -->
-                                <!-- ::: -->
-                                
-                                
-                                <!-- ## `tidyverse` en acción  -->
-                                
-                                <!-- ![](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXBmYmR4Nno1eDNrNjYwbnA1OG83cXRteXVibDNqd3h2aDdsbjRobCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hXDrTueJWAscK3xWQ2/giphy.gif) -->
-                                
-                                
-                                
+---
+# `group_by()`
+
+
+- Agrupa un data.frame por las categorías de una variable
+
+--
+
+- Proteínas para el `summarise()`
+
+```{r eval=FALSE}
+base_trabajo %>% 
+  group_by(variable)
+```
+
+---
+# `group_by()`
+
+```{r}
+base_trabajo %>% 
+  group_by(tipo_organismo) %>%  #<--
+  summarise(suma_item = sum(item_1a),
+            media_item = mean(item_1a))
+```
+
+---
+class: middle, center, logo-hide
+
+## `tidyverse en acción`
+
+---
+# `tidyverse` en acción
+
+```{r}
+base_trabajo <- base_ind_transp %>% 
+  select(Período, `Tipo de organismo`, `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  rename(
+    "periodo" = Período,
+    "tipo_organismo" = `Tipo de organismo`,
+    "item_1a" = `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  mutate(item_1a = case_when(item_1a == "Si" ~ 1,
+                             item_1a == "No" ~ 0)) %>% 
+  group_by(tipo_organismo) %>%  #<--
+  summarise(suma_item = sum(item_1a),
+            media_item = mean(item_1a))
+```
+
+---
+# `tidyverse` en acción
+
+
+```{r}
+base_trabajo
+```
+
+---
+
