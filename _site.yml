@@ -32,8 +32,8 @@ navbar:
           href: a_diapositivas/02-procesamiento_de_datos.html
         - text: "Modulo IV - Visualizacion de datos"
           href: a_diapositivas/03-visualizacion_de_datos.html
-          # - text: "Módulo 04 - Informes con Rmarkdown"
-          #   href: a_diapositivas/04_informes.html
+        - text: "Módulo V - Informes con Rmarkdown"
+          href: a_diapositivas/04-reportes.html
     - text: "Ejercitacion"
       menu:
         - text: "Modulo 01.a - R base - Practica"
