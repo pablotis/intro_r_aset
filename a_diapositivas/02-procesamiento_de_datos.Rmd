@@ -1,0 +1,1137 @@
+---
+title: "Procesamiento de datos con {tidyverse}"
+subtitle: "<a style='float:left'></div><hr color='#EB811B' size=1px width=1125px>"
+author: '<a href="https://linktr.ee/estacion_r"><img src="../estilo/logo/Logo_PNG_Alta_Mesa de trabajo 1 copia 4.png" alt="estacion-R logo" style="width:320px;height:270px;">
+</a>'
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: ../estilo/presentation_styles.css
+    includes:
+      after_body: ../estilo/insert-logo.html
+    lib_dir: libs
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+---
+
+
+```{r, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+#knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE)
+
+options(htmltools.dir.version = FALSE,
+        tibble.width = NULL)
+
+knitr::opts_chunk$set(collapse = TRUE,
+                      fig.retina = 3,
+                      fig.width = 10,
+                      out.width = 300, ### control plot size
+                      #cache = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "", 
+                      cache = FALSE)
+
+
+library(flipbookr)
+library(tidyverse)
+library(xaringan)
+library(xaringanthemer)
+library(xaringanExtra)
+library(here)
+library(countdown)
+```
+
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+
+xaringanExtra::style_panelset_tabs(
+  active_foreground = "#0051BA",
+  hover_foreground = "#d22",
+  font_family = "Roboto"
+)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+
+
+# ¿Qué vimos?
+
+<br>
+
+✅ Conceptos básicos de R (valores, vectores, data.framtes, funciones, objetos)
+
+<br>
+
+✅ Cómo armar y organizar un proyecto de trabajo
+
+<br>
+
+✅ Qué son los paquetes (o librerías)
+
+---
+## Hoja de Ruta
+
+.pull-left[
+
+📌 Flujo de trabajo en el Procesamiento de Datos
+
+<br>
+
+📦 Paquete `{dplyr}`
+
+```         
+🔧 `select()` 🔧 `filter()` 
+
+🔧 `mutate()` 🔧 `rename()` 
+
+🔧 `arrange()` 
+
+🔧 `group_by()` 🔧 `summarise()`  
+
+🔧 `joins` 
+```
+]
+
+.pull-right[
+
+📌 La pipa (`|>` o `%>%`)
+
+<br>
+
+📦 Paquete `{tidyr}`
+
+```         
+🔧 `pivot_longer()` 🔧 `pivot_wider()`  
+```
+]
+
+---
+## Configuración para esta clase
+
+<br>
+
+-   Armar un proyeto de trabajo nuevo
+
+-   Crear una carpeta en el llamada `datos`
+
+-   Descargar la base de juguete [**relevamiento_indice_transparencia_2024.xlsx**](file:///home/pablote/Pablo/Proyectos/Estaci%C3%B3n%20R/Consultor%C3%ADa/intro_r_aaip/docs/datos/relevamiento_indice_transparencia_2024.xlsx) (Argentina) y ubicarla en la carpeta `datos`
+
+-   Crear un **script** de trabajo.
+
+---
+class: center, middle, inverse, hide-logo
+# Flujo de trabajo en el Procesamiento de Datos
+
+---
+## Flujo de trabajo en el Procesamiento de Datos
+
+```{r echo=FALSE, out.width= '60%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_3/proceso_ciencia_datos.jpg"))
+```
+
+---
+class: center, middle, inverse, hide-logo
+
+# `{tidyverse}`
+
+---
+## ¿Qué es `{tidyverse}`?
+
+
+-   Una colección de paquetes.
+
+-   Comparten una filosofía acerca de los datos y la programación en R ("*tidy*" -*ordenado*-).
+
+-   Tienen una coherencia para ser utilizados en conjunto.
+
+-   Orientado a ser leído y escrito por y para seres humanos.
+
+-   Una comunidad, basada en los principios del código abierto y trabajo colaborativo.
+
+
+---
+## ¿Qué es `{tidyverse}`?
+
+```{r echo=FALSE, out.width= '60%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_3/circuito_del_dato_tidy.png"))
+```
+
+
+---
+## `{tidyverse}`
+
+<br>
+
+-   Instalación:
+
+``` r
+install.packages("tidyverse")
+```
+
+---
+## `{tidyverse}`
+
+<br>
+
+-   Cargo el paquete:
+
+```{r message=TRUE, warning=TRUE}
+library(tidyverse)
+```
+
+---
+## `{tidyverse}`
+
+-   Nos evita tener que instalar uno por uno a cada paquete:
+
+``` r
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("ggplot2")
+```
+
+<br>
+
+-   Como también tener que convocarlos de a uno:
+
+``` r
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+---
+class: center, middle, hide-logo
+
+![](../img/clase_3/logo dplyr.png)
+
+```{r echo=FALSE, out.width = '10%', fig.align = 'center', eval=FALSE}
+knitr::include_graphics(here::here("img/clase_3/logo dplyr.png"))
+```
+
+
+---
+## Funciones del paquete dplyr:
+
+<br>
+
+| **Función**   |                            **Acción** |
+|:--------------|--------------------------------------:|
+| `select()`    |     *selecciona o descarta variables* |
+| `filter()`    |                    *selecciona filas* |
+| `mutate()`    |              *crea / edita variables* |
+| `rename()`    |                  *renombra variables* |
+| `group_by()`  | *segmenta en funcion de una variable* |
+| `summarize()` |         *genera una tabla de resúmen* |
+
+
+---
+class: center, middle, inverse, hide-logo
+
+# **select()**
+
+<html><hr color='#EB811B' size=1px width=1600px></html>
+
+<html><p style="color:white;" align:"left">Elige o descarta columnas de una base de datos</p></html>
+
+
+---
+## `select()`
+
+<br>
+
+-   La función tiene la siguiente estructura:
+
+  - Escribo la función --> Doy el primer argumento: la `base de datos`
+```{r}
+#| eval: false
+select(`base_de_datos`,
+       variable1, variable2) 
+```
+
+--
+
+- Indico el segundo conjunto de argumentos: las `variables (columnas)` a seleccionar
+```{r}
+#| eval: false
+select(base_de_datos, 
+       `variable1, variable2`)
+```
+
+---
+## `select()`
+
+```{r}
+#| eval: false
+select(base_de_datos, 
+       id, nombre) #<<
+```
+
+```{r echo=FALSE, fig.align = 'center', out.width='65%'}
+knitr::include_graphics(here::here("img/clase_3/select_presentacion.png"))
+```
+
+
+---
+## Caso práctico
+
+```{r}
+#| include: false
+#| echo: false
+library(rio)
+base_ind_transp <- import(here::here("datos/relevamiento_indice_transparencia_2024.xlsx"))
+```
+
+```r
+# Cargo paquete
+library(rio)
+
+# Importo datos
+base_ind_transp <- import("datos/relevamiento_indice_transparencia_2024.xlsx")
+```
+
+<br>
+
+```{r}
+# Exploro la base
+colnames(base_ind_transp)
+```
+
+---
+## Caso práctico
+
+<br>
+
+- **Pedido:** Me han solicitado una base que contenga las variables de tiempo e identificacion del tipo de organismo
+
+<br>
+
+- Variables de trabajo:
+
+  - *Marca temporal*
+  - *Período*
+  - *Tipo de organismo*
+
+
+---
+## Caso práctico
+
+- Selecciono las 3 columnas de interés
+
+```{r}
+library(tidyverse)
+
+select(base_ind_transp, #<<
+       "Marca temporal", "Período", "Tipo de organismo") #<<
+```
+
+
+---
+class: center, middle, inverse, hide-logo
+
+# La pipa
+
+
+---
+## Un operador llamado `pipa`
+
+<br>
+
+<br>
+
+.pull-left[
+
+<br>
+
+```{r eval=FALSE}
+base_de_datos |>
+  funcion1 |> 
+  funcion2 |> 
+  funcion3
+```
+]
+
+.pull-right[
+
+![](../img/clase_3/pipa.gif)
+]
+
+
+---
+## Un operador llamado `pipa`
+
+<br>
+
+-   Pipa de **R base**: `|>`
+
+<br>
+
+-   Pipa de **{magritr}**: `%>%`
+
+
+---
+## `select()` + La `pipa`
+
+#### Antes
+
+```{r eval=FALSE}
+select(`base_ind_transp`, 
+       "Marca temporal", "Período", "Tipo de organismo")
+```
+
+--
+
+#### Después
+
+```{r eval=FALSE}
+ `base_ind_transp` %>% 
+  select("Marca temporal", "Período", "Tipo de organismo")
+```
+
+---
+class: middle, center, inverse, hide-logo
+
+# PREGUNTA
+
+---
+## Pregunta
+
+<br>
+
+* Cuál es la diferencia entre esta sentencia:
+
+```{r eval=FALSE}
+select(base_ind_transp, 
+       "Marca temporal", "Período", "Tipo de organismo")
+```
+
+--
+
+* Y esta sentencia:
+
+
+```{r echo=FALSE}
+ base_ind_transp_seleccion <- select(base_ind_transp, 
+       "Marca temporal", "Período", "Tipo de organismo")
+```
+
+```{r eval=FALSE}
+ base_ind_transp_seleccion <- select(base_ind_transp, 
+       "Marca temporal", "Período", "Tipo de organismo")
+```
+
+---
+## Pregunta
+
+<br>
+
+* Cuál es la diferencia entre esta sentencia:
+
+```{r eval=FALSE}
+select(base_ind_transp, 
+       "Marca temporal", "Período", "Tipo de organismo")
+```
+
+* Y esta sentencia:
+
+```{r eval=FALSE}
+ `base_ind_transp_seleccion` <- select(base_ind_transp, 
+       "Marca temporal", "Período", "Tipo de organismo")
+```
+
+---
+## Caso práctico
+
+-   Selecciono las 3 columnas de interés
+
+```{r}
+#| code-line-numbers: "2"
+library(tidyverse)
+
+base_ind_trans_seleccion <- base_ind_transp |>
+  select("Marca temporal", "Período", "Tipo de organismo")
+```
+
+<br>
+    
+- Chequeo las columnas del nuevo objeto
+
+```{r}
+#| code-line-numbers: "1"
+colnames(base_ind_transp_seleccion)
+```
+
+
+---
+## `select()` - *por posición*
+
+<br>
+    
+2. Selecciono
+
+```{r}
+#| code-line-numbers: "2"
+base_ind_transp_seleccion_1 <- base_ind_transp |>
+  select(1, 2, 3)
+```
+
+---
+## `select()` - *por posición*
+
+<br>
+
+3. Chequeo
+
+```{r}
+colnames(base_ind_transp_seleccion_1)
+```
+
+---
+## `select()` - *por posición (columnas consecutivas)*
+
+<br>
+
+```{r}
+#| code-line-numbers: "2"
+base_ind_transp_seleccion_2 <- base_ind_transp |>
+  select(1:3)
+```
+
+---
+## `select()` - *por posición (columnas consecutivas)*
+
+<br>
+
+```{r}
+#| code-line-numbers: "2"
+base_ind_transp_seleccion_2 <- base_ind_transp |>
+  select(1:3)
+```
+
+<br>
+
+```{r}
+colnames(base_ind_transp_seleccion_2)
+```
+
+---
+class: center, middle
+
+![](https://imgs.search.brave.com/Frz7Kuv_uvyXQb269pQbZ2-UxWSZ-oIPOgfP4lTWmmU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9naWZk/Yi5jb20vaW1hZ2Vz/L2hpZ2gvc2FjaGEt/YmFyb24tY29oZW4t/dmVyeS1uaWNlLXFq/N2x5YXFudXBueTl6/ODAuZ2lm.gif)
+
+---
+## `select()` - *Por patrones de texto*
+
+<br>
+
+**Funciones auxiliares:**
+
+-   `starts_with()` --\> *empieza con...*
+
+-   `ends_with()` --\> *termina con...*
+
+-   `contains()` --\> *contiene...*
+
+
+---
+## `select()` + `starts_with()`
+
+<br>
+
+```{r}
+#| code-line-numbers: "2"
+base_ind_transp_patron1 <- base_ind_transp |>
+  select(starts_with("20"))
+```
+
+--
+
+- Chequeo
+```{r}
+colnames(base_ind_transp_patron1)
+```
+
+---
+## `select()` + `starts_with()`
+
+<br>
+      
+---
+## `select()` + `ends_with()`
+
+<br>
+
+```{r}
+#| code-line-numbers: "2"
+base_ind_transp_patron2 <- base_ind_transp |>
+  select(ends_with("actualización)"))
+```
+
+--
+
+- Chequeo
+```{r}
+colnames(base_ind_transp_patron2)
+```
+
+
+## `select()` + `starts_with()`
+
+<br>
+
+---
+class: center, middle
+
+![](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjEzMW15cWk3bXJ5MzQ0aXQwd2IwenIyN3JseTlucW9nc2R0enY4NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lk023zZqHJ3Zz4rxtV/giphy.gif)
+
+---
+## `select()` + `contains()`
+
+<br>
+
+```{r}
+#| code-line-numbers: "2"
+base_ind_transp_patron3 <- base_ind_transp |>
+  select(contains("[U]"))
+```
+
+--
+
+- Chequeo
+```{r}
+colnames(base_ind_transp_patron3)
+```
+
+---
+class: center, middle
+
+![](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXprbDVsM2l1MmF5dDRjMGY1N2xiNW52dmFscHNsM3NhbDZ5eXc5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NEvPzZ8bd1V4Y/giphy.gif)
+
+---
+class: middle, center, inverse, hide-logo
+
+# LA COMBINACIÓN FINAL
+
+---
+## `select()`
+
+<br>
+
+```{r}
+#| code-line-numbers: "2"
+base_ind_transp_tuto <- base_ind_transp |>
+  select(Período, 4, starts_with("Link"))
+
+```
+
+--
+
+```{r}
+colnames(base_ind_transp_tuto)
+```
+
+---
+class: center, middle, hide-logo
+![](../img/clase_3/explode.gif)
+
+
+---
+class: middle, center, inverse, hide-logo
+
+# Ejercitación grupal
+
+
+---
+## Ejercitación
+
+-   Crear un objeto en donde importamos la base de datos del relevamiento de sujetos obligados
+
+-   Seleccionar 3 variables de la base según el nombre de las mismas y guardar en otro objeto.
+
+-   Seleccionar 3 variables de la base según la posición de las mismas y guardar en otro objeto.
+
+-   Seleccionar todas las variables que **empiecen** con un patrón de texto (a elegir).
+
+
+---
+class: middle, center, inverse, hide-logo
+
+# **filter()**
+
+<html><hr color='#EB811B' size=1px width=1600px></html>
+
+<html><p style="color:white;" align:"left">Elige o descarta columnas de una base de datos</p></html>
+
+
+---
+## `filter()`
+
+<br>
+
+-   La función tiene la siguiente estructura:
+
+```{r}
+#| eval: false
+#| code-line-numbers: "2"
+
+filter(base_de_datos,
+       condicion)
+```
+
+```{r echo=FALSE, fig.align = 'center', out.width='65%'}
+knitr::include_graphics(here::here("img/clase_3/filter_presentacion.png"))
+```
+
+
+---
+## `filter()`
+
+<br>
+
+-   `Con pipe`, la función tiene la siguiente estructura:
+
+```{r}
+#| eval: false
+#| code-line-numbers: "2"
+base_de_datos |>
+  filter(Edad > 65)
+```
+
+```{r echo=FALSE, fig.align = 'center', out.width='65%'}
+knitr::include_graphics(here::here("img/clase_3/filter_presentacion.png"))
+```
+
+---
+## Caso práctico
+
+- Debo realizar un análisis de la base de datos sólo para los sujetos obligados de tipo `Universidades`.
+
+<br>
+
+**Universo de análisis / Población de estudio:**
+
+- `Universidades`
+
+
+---
+## Caso práctico
+
+- Chequeo qué tipo de organismos existen en la base de trabajo
+
+--
+
+```{r}
+unique(base_ind_transp$`Tipo de organismo`)
+```
+
+---
+## Caso práctico
+
+-   Aplico filtro
+
+```{r}
+library(tidyverse)
+base_filtrada <- base_ind_transp |>
+  filter(`Tipo de organismo` == "Universidades")
+```
+
+--
+
+-   Chequeo filtro
+
+```{r}
+unique(base_filtrada$`Tipo de organismo`)
+```
+
+
+---
+## `filter()`
+
+- Otra forma de chequeo: Contar casos
+
+```{r}
+base_ind_transp %>% 
+  count(`Tipo de organismo`)
+```
+
+--
+
+```{r}
+base_filtrada %>% 
+  count(`Tipo de organismo`)
+```
+
+
+
+---
+## `filter()`
+
+.pull-left[
+
+| Condición | Acción              |
+|:----------|:--------------------|
+| `==`      | *igual*             |
+| `%in%`    | *incluye*           |
+| `!=`      | *distinto*          |
+| `>`       | *mayor que*         |
+| `<`       | *menor que*         |
+| `>=`      | *mayor o igual que* |
+| `<=`      | *menor o igual que* |
+
+]
+
+.pull-right[
+
+| Operador | Descripción                                 |
+|:---------|:--------------------------------------------|
+| `&`      | *y* - Cuando se cumplen ambas condiciones   |
+| `┃`       | *o* - Cuando se cumple una u otra condición |
+ 
+]
+
+
+---
+## Caso práctico - Filtro múltiple
+
+<br>
+
+- Debo realizar un análisis de la base de datos para los sujetos obligados de tipo `Universidades` y `Organismos Descentralizados`.
+
+<br>
+
+
+---
+## Caso práctico - Filtro múltiple
+
+- Chequeo qué tipo de organismos existen en la base de trabajo
+
+--
+
+```{r}
+unique(base_ind_transp$`Tipo de organismo`)
+```
+
+---
+## Caso práctico - Filtro múltiple
+
+-   Aplico filtro
+
+```{r}
+base_filtrada <- base_ind_transp |>
+  filter(`Tipo de organismo` == "Universidades" | `Tipo de organismo` == "Organismos Descentralizados")
+```
+
+--
+
+-   Chequeo filtro
+
+```{r}
+unique(base_filtrada$`Tipo de organismo`)
+```
+
+---
+## Caso práctico - Filtro múltiple - Operador `%in%`
+
+-   Aplico filtro
+
+```{r}
+base_filtrada_operador_in <- base_ind_transp |>
+  filter(`Tipo de organismo` %in% c("Universidades", "Organismos Descentralizados"))
+```
+
+--
+
+-   Chequeo filtro
+
+```{r}
+unique(base_filtrada_operador_in$`Tipo de organismo`)
+```
+
+
+---
+class: middle, center, inverse, hide-logo
+
+# **mutate()**
+
+<html><hr color='#EB811B' size=1px width=1600px></html>
+
+<html><p style="color:white;" align:"left">Crea / edita variables (columnas)</p></html>
+
+
+---
+## `mutate()`
+
+<br>
+
+-   La función tiene la siguiente estructura:
+
+<br>
+
+```{r}
+#| eval: false
+#| code-line-numbers: "2"
+base_de_datos %>%
+  mutate(`var_nueva` = var_1 + var_2)
+```
+
+---
+## Caso práctico
+
+- Tenemos la siguiente tabla con los valores del **Índice de Transparencia**...
+
+- Queremos redondear los valores, para poder presentarlos
+
+```{r echo=FALSE}
+base_resultados <- data.frame(
+  sujeto_obligado = c("Instituto Nacional del Teatro", "Instituto Nacional del Cáncer",
+                      "Agencia de Planificación (APLA)", "Oficina Anticorrupción",
+                      "Fundación Miguel Lillo"),
+  indice_transparencia = c(2.5656, 76.23423, 32.123123, 89.1, 65.21331)
+)
+
+base_resultados
+```
+
+---
+## Caso práctico
+
+```{r echo=TRUE, eval=FALSE}
+base_resultados %>%
+  mutate(redondeo = round(indice_transparencia, digits = 1))
+```
+
+```{r echo=FALSE}
+base_resultados %>%
+  mutate(redondeo = round(indice_transparencia, digits = 1))
+```
+
+---
+## Caso práctico
+```{r echo=TRUE, eval=FALSE}
+base_resultados %>%
+  mutate(indice_transparencia = round(indice_transparencia, digits = 1))
+```
+
+```{r echo=FALSE}
+base_resultados %>%
+  mutate(indice_transparencia = round(indice_transparencia, digits = 1))
+```
+
+---
+## `mutate()` + `case_when()`
+
+- `case_when()` = _"Siempre que..."_ 
+
+- Quiero determinado valor en mi nueva variable, _siempre que_ ocurra cierta condición
+
+--
+
+<br>
+
+```{r echo=TRUE, eval=FALSE}
+base_de_datos %>% 
+  mutate(var_nueva = case_when(var_vieja == "a" `~` contenido_a,
+                               var_vieja == "b" `~` contenido_b))
+```
+
+
+---
+## `mutate()` + `case_when()`
+
+- Recodificar variable `Periodo`:
+
+```{r}
+unique(base_ind_transp$Período)
+```
+
+```{r}
+base_recod <- base_ind_transp %>% 
+  mutate(Período = case_when(Período == "ABRIL (Enero - Marzo 2024)" ~ "1er Trim",
+                             Período == "1° Trimestre 2024 (Enero - Marzo)" ~ "1er Trim",
+                             Período == "JULIO (Abril - Junio 2024)" ~ "2do Trim"))
+```
+
+--
+
+```{r}
+unique(base_recod$Período)
+```
+
+
+---
+## Limpieza de datos
+
+```{r}
+library(janitor)
+
+base_limpia <- base_ind_transp %>% 
+  select(`Universidades:`, `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  rename("universidades" = `Universidades:`,
+         "1.a" = `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`)
+```
+
+--
+
+```{r}
+colnames(base_limpia)
+```
+
+---
+class: middle, center, inverse, hide-logo
+
+# **group_by() + summarise()**
+
+<html><hr color='#EB811B' size=1px width=1600px></html>
+
+<html><p style="color:white;" align:"left">Agrupamiento / Cálculos</p></html>
+
+---
+# `summarise()`
+
+- Caso: Quiero sumar el puntaje total para el ítem **1.a (_"¿Informa al menos uno de los elementos solicitados?"_)**
+
+--
+
+Primero: Conocer la variable sobre la cuál voy a trabajar:
+
+- ¿Es numérica?
+- Está preparada para calcular? (recodificación, valores de texto o outliers, etc.)
+
+Veamos:
+
+---
+# `summarise()`
+
+1. Recodifico el nombre de la variable, para hacerla más amena de trabajar en el código
+
+```{r}
+base_trabajo <- base_ind_transp %>% 
+  select(Período, `Tipo de organismo`, `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  rename(
+    "periodo" = Período,
+    "tipo_organismo" = `Tipo de organismo`,
+    "item_1a" = `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`)
+
+head(base_trabajo)
+
+```
+
+---
+# `summarise()`
+
+2. Chequeo qué valores figuran en la variable:
+
+```{r}
+unique(base_trabajo$item_1a)
+```
+
+---
+# `summarise()`
+
+4. Recodifico la variable de texto a número (códigos), donde:
+
+"Si" == 1
+
+y
+
+"No" == 2
+
+```{r}
+base_trabajo <- base_trabajo %>% 
+  mutate(item_1a = case_when(item_1a == "Si" ~ 1,
+                             item_1a == "No" ~ 0))
+
+unique(base_trabajo$item_1a)
+```
+
+
+---
+# `summarise()`
+
+- ¡Todo listo para calcular!
+
+--
+
+```{r}
+base_trabajo %>% 
+  summarise(suma_item = sum(item_1a))
+```
+
+--
+
+```{r}
+base_trabajo %>% 
+  summarise(suma_item = sum(item_1a),
+            media_item = mean(item_1a))
+```
+
+---
+# `group_by()`
+
+
+- Agrupa un data.frame por las categorías de una variable
+
+--
+
+- Proteínas para el `summarise()`
+
+```{r eval=FALSE}
+base_trabajo %>% 
+  group_by(variable)
+```
+
+---
+# `group_by()`
+
+```{r}
+base_trabajo %>% 
+  group_by(tipo_organismo) %>%  #<--
+  summarise(suma_item = sum(item_1a),
+            media_item = mean(item_1a))
+```
+
+---
+class: middle, center, logo-hide
+
+## `tidyverse en acción`
+
+---
+# `tidyverse` en acción
+
+```{r}
+base_trabajo <- base_ind_transp %>% 
+  select(Período, `Tipo de organismo`, `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  rename(
+    "periodo" = Período,
+    "tipo_organismo" = `Tipo de organismo`,
+    "item_1a" = `1.a) ¿Informa al menos uno de los elementos solicitados? (misión, objetivos, o ambos)`) %>% 
+  mutate(item_1a = case_when(item_1a == "Si" ~ 1,
+                             item_1a == "No" ~ 0)) %>% 
+  group_by(tipo_organismo) %>%  #<--
+  summarise(suma_item = sum(item_1a),
+            media_item = mean(item_1a))
+```
+
+---
+# `tidyverse` en acción
+
+
+```{r}
+base_trabajo
+```
+
+---
+

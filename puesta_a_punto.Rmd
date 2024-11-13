@@ -6,41 +6,93 @@ site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-## Dinámica de taller
-
-Este taller está pensado para ser esencialmente práctico. La idea es exponer una presentación por módulo, en donde cada 3 o 4 conceptos se le dedicará un tiempo para poder ejercitar lo visto, previo a continuar con el siguiente contenido.
-
-Se recomienda seguir las presentaciones durante la exposición ya que de ellas se extraerá el código, haciendo más ágil la cursada.
+## Instrucciones de instalación de los programas R y Rstudio ^[Traducción del instructivo original diseñado por [Data Carpentry](https://datacarpentry.org/R-genomics/index.html)]
 
 
-## Estrategias metodológicas y Recursos didácticos
+**R** y **RStudio** son descargas e instalaciones independientes. R es el entorno de cálculo estadístico subyacente, pero utilizar R por sí solo no es divertido. RStudio es un entorno gráfico de desarrollo integrado (IDE) que hace que el uso de R sea mucho más fácil e interactivo. Es necesario instalar R antes de instalar RStudio. Después de instalar ambos programas, tendrá que instalar el paquete `tidyverse` desde RStudio. En las siguientes secciones encontrará las instrucciones para instalar R y R Studio en su sistema operativo, así como las instrucciones para instalar a continuación `tidyverse`
 
-Las clases del curso serán teórico-prácticas. Por cada presentación temática se irán planteando ejercicios a medida que se avanza en el contenido, abordando las dudas que vayan surgiendo. Se prioriza la utilización del programa durante la clase.
+<br>
 
-A lo largo del curso se brindarán sintaxis al estilo “notas de clase”, en las cuales se plasman conjuntamente las líneas de código que se exponen y su correspondiente explicación respecto a los procedimientos realizados. Finalmente, se propondrán ejercicios para resolver fuera de la clase con el objetivo de reforzar los conocimientos vistos en las mismas.
+*** 
 
-Se busca que, siempre que se pueda, el contenido, ejemplos y ejercicios representen problemáticas y desafíos propios del campo en el que se encuentran insertos los y las participantes.
+### Windows
 
+> Si ya tiene R y RStudio instalados
 
-## Instalación de R
+- Abra RStudio y haga clic en «Ayuda» > «Buscar actualizaciones». Si hay una nueva versión disponible, salga de RStudio, y descargue la última versión para RStudio.
 
-Asegurate de tener instalado R en tu computadora previo a comenzar el taller. Desde [R-project](https://www.r-project.org/) vas a poder hacerte de R. 
-
-**Sugerencia:** instalar [rtools](https://cran.r-project.org/bin/windows/Rtools/), herramienta para poder trabajar con el paquete `tidyverse`.
-
+- Para comprobar qué versión de R estás utilizando, inicia RStudio y lo primero que aparece en la consola indica la versión de R que estás ejecutando. Alternativamente, puedes escribir `sessionInfo()`, que también mostrará qué versión de R estás ejecutando. Vaya al sitio web de [CRAN](https://cran.r-project.org/bin/windows/base/) y compruebe si hay disponible una versión más reciente. Si es así, descárguela e instálela. Puede [consultar aquí](https://cran.r-project.org/bin/windows/base/rw-FAQ.html#How-do-I-UNinstall-R_003f) más información sobre cómo eliminar versiones antiguas de su sistema si lo desea.
 
 
-## Instalación de Rstudio
+> Si no tiene R y RStudio instalados
 
-Rstudio es la plataforma desde donde se trabajará durante todo el taller. Si bien debemos tener instalado R, el programa que se abrirá en cada clase y desde donde haremos los ejercicios es Rstudio.
+- Descargue R del sitio web [CRAN](cran.r-project.org/bin/windows/base/release.htm).
 
-[Descargar Rstudio](https://www.rstudio.com/products/rstudio/download/#download)
+- Ejecute el archivo `.exe` que acaba de descargar
+
+- Vaya a la [página de descarga de RStudio](https://www.rstudio.com/products/rstudio/download/#download)
+
+- En `Installers` seleccione **RStudio x.yy.zzz - Windows XP/Vista/7/8** (donde x, y, y z representan números de versión)
+
+- Haga doble clic en el archivo para instalarlo
+
+- Una vez instalado, abre RStudio para asegurarte de que funciona y no recibes ningún mensaje de error.
+
+<br>
+
+*** 
+
+### macOS
+
+> Si ya tienes R y RStudio instalados
+
+- Abre RStudio y haz clic en «Ayuda» > «Buscar actualizaciones». Si hay una nueva versión disponible, sal de RStudio, y descarga la última versión para RStudio.
+
+- Para comprobar la versión de R que estás utilizando, inicia RStudio y lo primero que aparecerá en el terminal te indicará la versión de R que estás ejecutando. Alternativamente, puedes escribir `sessionInfo()`, que también mostrará qué versión de R estás ejecutando. Vaya al sitio web de [CRAN](https://cran.r-project.org/bin/macosx/) y compruebe si hay disponible una versión más reciente. Si es así, descárguela e instálela.
+
+
+> Si no tiene R y RStudio instalados
+
+- Descargue R del [sitio web CRAN](http://cran.r-project.org/bin/macosx).
+
+- Seleccione el archivo `.pkg` para la última versión de R
+
+- Haga doble clic en el archivo descargado para instalar R
+
+- También es una buena idea instalar [XQuartz](https://www.xquartz.org/) (necesario para algunos paquetes)
+
+- Vaya a la [página de descarga de RStudio](https://www.rstudio.com/products/rstudio/download/#download)
+
+- En Instaladores seleccione **RStudio x.yy.zzz - Mac OS X 10.6+ (64-bit)** (donde x, y, y z representan números de versión)
+
+- Haga doble clic en el archivo para instalar RStudio
+
+- Una vez instalado, abre RStudio para asegurarte de que funciona y no recibes ningún mensaje de error.
+
+<br>
+
+*** 
+
+### Linux
+
+- Siga las instrucciones para su distribución desde [CRAN](https://cloud.r-project.org/bin/linux), proporcionan información para obtener la versión más reciente de R para las distribuciones comunes. Para la mayoría de las distribuciones, podrías utilizar tu gestor de paquetes (por ejemplo, para Debian/Ubuntu ejecuta `sudo apt-get install r-base`, y para Fedora `sudo yum install R`), pero no recomendamos este enfoque ya que las versiones proporcionadas por este suelen estar desactualizadas. En cualquier caso, asegúrate de que tienes al menos R 3.3.1.
+
+- Vaya a la [página de descargas de RStudio](https://www.rstudio.com/products/rstudio/download/#download)
+
+- En `Installers` seleccione la versión que coincida con su distribución, e instálela con su método preferido (por ejemplo, con Debian/Ubuntu `sudo dpkg -i rstudio-x.yy.zzz-amd64.deb` en el terminal).
+
+- Una vez instalado, abre RStudio para asegurarte de que funciona y no recibes ningún mensaje de error.
+
+<br>
+
+## Para todos
+
+**Después de instalar R y RStudio, necesitas instalar los paquetes `tidyverse`**
+
+- Después de iniciar RStudio, en la consola escriba: `install.packages("tidyverse")`
 
 
 ## Descarga de Slack (versión escritorio)

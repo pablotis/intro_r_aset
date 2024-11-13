@@ -21,7 +21,7 @@
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -88,26 +88,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>Inicio: Introducción al procesamiento de datos con R para Ciencias Sociales</title>
+  <title>Inicio: Introducción al procesamiento de datos con R</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Inicio: Introducción al procesamiento de datos con R para Ciencias Sociales"/>
+  <meta property="og:title" content="Inicio: Introducción al procesamiento de datos con R"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Inicio"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Inicio: Introducción al procesamiento de datos con R para Ciencias Sociales"/>
+  <meta property="twitter:title" content="Inicio: Introducción al procesamiento de datos con R"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","authot","site"]}},"value":[{"type":"character","attributes":{},"value":["Introducción al procesamiento de datos con R para Ciencias Sociales"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Pablo Tiscornia"]}]}]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","authot","site"]}},"value":[{"type":"character","attributes":{},"value":["Introducción al procesamiento de datos con R"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Pablo Tiscornia"]}]}]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -826,9 +826,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     display: none !important;
   }
 
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
+    border-top: none;
   }
 
   d-appendix {
@@ -923,6 +935,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1684,6 +1701,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // create d-title
     $('.d-title').changeElementType('d-title');
 
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
@@ -1761,8 +1784,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1788,12 +1812,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
         if (orcid_id) {
           var a = $('<a></a>');
           a.attr('href', 'https://orcid.org/' + orcid_id);
           var img = $('<img></img>');
           img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
           img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
           a.append(img);
           $(this).append(a);
@@ -2160,14 +2185,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   /* Optional: embed custom fonts here with `@import`          */
   /* This must remain at the top of this file.                 */
-  @import url('https://fonts.googleapis.com/css2?family=Amiri');
-  @import url('https://fonts.googleapis.com/css2?family=Bitter');
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono');
-  @import url('https://fonts.googleapis.com/css2?family=Anton');
-  @import url('https://fonts.googleapis.com/css2?family=Londrina+Shadow&family=Overlock&family=Press+Start+2P&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Cardo');
-  @import url('https://fonts.googleapis.com/css2?family=Alata')
+  @import url('https://fonts.googleapis.com/css2?family=Roboto');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 
 
   html {
@@ -2184,10 +2203,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     --aside-color:     rgba(0, 0, 0, 0.6);
     --fig-cap-color:   rgba(0, 0, 0, 0.6);
     /*-- Specify custom fonts ~~~ must be imported above   --*/
-    --heading-font:    'Alata', sans-serif;        /* edited */
-    --mono-font:       monospace;
-    --body-font:       'Cardo', serif;             /* edited */
-    --navbar-font:     'Alata', sans-serif;        /* edited */
+    --heading-font:    'Roboto';        /* edited */
+    --mono-font:       'Roboto';
+    --body-font:       'Roboto';             /* edited */
+    --navbar-font:     'Roboto';       /* edited */
   }
 
   /*-- ARTICLE METADATA --*/
@@ -2217,17 +2236,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   .distill-site-header {
     --title-size:       20px;
-    --text-color:       #f5f5f5;
+    --text-color:       #008585;
     --text-size:        15px;
-    --hover-color:      white;
-    --bkgd-color:       #5daa68;
+    --hover-color:      #e4418e;
+    --hover-border:      black;
+    --bkgd-color:       white;
   }
 
   .distill-site-footer {
     --text-color:       rgba(255, 255, 255, 0.8);
     --text-size:        15px;
     --hover-color:      white;
-    --bkgd-color:       #5daa68;
+    --bkgd-color:       #008585;
   }
 
   /*-- Additional custom styles --*/
@@ -2388,7 +2408,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2408,7 +2428,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Introducción al procesamiento de datos con R para Ciencias Sociales","authors":[]}
+{"title":"Introducción al procesamiento de datos con R","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2416,35 +2436,35 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo" href="https://estacion-r.netlify.app/">
+<img src="https://pbs.twimg.com/profile_banners/1214735980172845056/1716430021/1500x500" alt="Logo"/>
+</a>
 <a href="index.html" class="title">Inicio</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-Equipo docente
+Sobre el taller
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="about_pablotiscornia.html">Pablo Tiscornia</a>
-<a href="about_andreagomezvargas.html">Andrea Gomez Vargas</a>
-</div>
-</div>
+<a href="about_pablotiscornia.html">Docente</a>
 <a href="programa.html">Programa</a>
 <a href="puesta_a_punto.html">Puesta a punto</a>
+<a href="biblio.html">Bibliografia</a>
 </div>
-<div class="nav-right">
+</div>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-Diapositivas
+Encuentros
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="a_diapositivas/00_r_intro_eph.html">Modulo 00 - Introducción a la EPH</a>
-<a href="a_diapositivas/01a_r_intro_presentacion.html">Modulo 01.a - R base</a>
-<a href="a_diapositivas/01b_r_proyecto_de_trabajo.html">Modulo 01.b - Proyecto de trabajo</a>
-<a href="a_diapositivas/02_tidyverse.html">Modulo 02 - Herramientas de procesamiento de datos</a>
-<a href="a_diapositivas/03_visualizacion.html">Modulo 03 - Herramientas para la visualizacion de datos</a>
-<a href="a_diapositivas/04_informes.html">Módulo 04 - Informes con Rmarkdown</a>
+<a href="a_diapositivas/01a-intro_a_r.html">Módulo I - Introducción a R</a>
+<a href="a_diapositivas/01b-proyecto_de_trabajo.html">Módulo II - Proyectos de trabajo</a>
+<a href="a_diapositivas/02-procesamiento_de_datos.html">Módulo III - Procesamiento de datos</a>
+<a href="a_diapositivas/03-visualizacion_de_datos.html">Modulo IV - Visualizacion de datos</a>
+<a href="a_diapositivas/04-reportes.html">Módulo V - Informes con Rmarkdown</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2456,13 +2476,21 @@ Ejercitacion
 <div class="nav-dropdown-content">
 <a href="b_ejercitacion/01_r_intro_practica.html">Modulo 01.a - R base - Practica</a>
 <a href="b_ejercitacion/02_tidyverse_practica.html">Modulo 02 - Herramientas de procesamiento de datos</a>
-<span class="nav-dropdown-header">Modulo 03 - Herramientas para la vizualizacion de datos</span>
 </div>
 </div>
-<a href="biblio.html">Bibliografia</a>
-<a href="https://github.com/pablotis/intro_r_aset">
-<i class="fab fa-github" aria-hidden="true"></i>
-</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Datos
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="datos/relevamiento_indice_transparencia_2024.xlsx">relevamiento_indice_transparencia_2024.xlsx</a>
+<a href="datos/output_visualizaciones_2024-07-23.xlsx">salida_visualizaciones.xlsx</a>
+</div>
+</div>
+</div>
+<div class="nav-right">
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2472,7 +2500,8 @@ Ejercitacion
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Introducción al procesamiento de datos con R para Ciencias Sociales</h1>
+<h1>Introducción al procesamiento de datos con R</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2481,19 +2510,17 @@ Ejercitacion
 
 <div class="d-article">
 <h2 id="presentación">Presentación</h2>
-<p>El taller tiene como principal objetivo introducir a los y las participantes en el mundo de R y la programación para producir información estadística descriptiva. La idea es centrarse en cómo encarar un proyecto que involucre meter manos en los datos, desde cómo nombrar las carpetas o archivos, importarlos para acceder a la información, limpiar y procesarla hasta como visualizar, analizar y comunicar los hallazgos.</p>
+<p>El taller tiene como principal objetivo introducir a los y las integrantes de la Agencia de Acceso a la Información Pública en el mundo de la programación con R. El objetivo a alcanzar es centrarse en cómo encarar un proyecto que involucre diseñar y llevar a cabo un proyecto de trabajo con la información recolectada por la oficina, que va desde cómo nombrar las carpetas o archivos, leer los datos, limpiarlos, procesarlos hasta como visualizar, analizar y comunicar los hallazgos.</p>
 <h2 id="para-quién">¿Para quién?</h2>
-<p>Para toda aquella persona que quiera / necesite trabajar con datos de una forma más sistemática, ordenada y productiva. No se requiere conocimientos previos de algún lenguaje en particular, aunque siempre es de ayuda haberse cruzado al menos con una sintaxis o haber utilizado alguna fórmula en Excel.</p>
-<p>Lo de <em>Ciencias Sociales</em> es una excusa! Los ejemplos serán a partir de bases con las que suelo estar cómodo, pero el contenido es válido para cualquier campo/disciplina/profesión.</p>
+<p>Equipo de trabajo de la Agencia de Acceso a la Información Pública.</p>
 <h2 id="cómo">¿Cómo?</h2>
-<p>Las clases del taller serán teórico-prácticas. Por cada presentación temática se plantearán ejercicios sobre lo visto, abordando al mismo tiempo las dudas que puedan surgir. Se priorizará la utilización del programa durante la clase.</p>
-<hr />
+<p>Las clases del taller serán teórico-prácticas. Por cada presentación temática se plantearán ejercicios sobre lo visto, abordando al mismo tiempo las dudas que puedan surgir. Se priorizará la utilización del programa durante la clase y la aplicación práctica sobre los datos que produce el organismo.</p>
 <h2 id="cronograma">Cronograma:</h2>
 <p><strong>Cantidad de encuentros:</strong> 5.</p>
 <p><strong>Cantidad de horas por encuentro:</strong> 2hs.</p>
-<p><strong>Día y horario de cursada:</strong> Jueves, de 18 a 20hs.</p>
-<p><strong>Fecha de inicio</strong>: Jueves 9 de noviembre.</p>
-<p><strong>Fecha de finalización</strong>: Jueves 7 de diciembre</p>
+<p><strong>Día y horario de cursada:</strong> Miércoles, de 14:30 a 15:30hs y Viernes de 11 a 13hs.</p>
+<p><strong>Fecha de inicio</strong>: Miércoles 24 de Julio de 2024.</p>
+<p><strong>Fecha de finalización</strong>: Miércoles 7 de agosto de 2024</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

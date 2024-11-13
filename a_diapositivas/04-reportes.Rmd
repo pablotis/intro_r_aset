@@ -1,0 +1,424 @@
+---
+title: "Generación de reportes con `{rmarkdown}`"
+subtitle: "Principales conceptos y secciones para armar un reporte con R"
+author: '<a href="https://linktr.ee/estacion_r"><img src="../estilo/logo/Logo_PNG_Alta_Mesa de trabajo 1 copia 4.png" alt="estacion-R logo" style="width:320px;height:270px;">
+</a>'
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: ../estilo/presentation_styles.css
+    includes:
+      after_body: ../estilo/insert-logo.html
+    lib_dir: libs
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+---
+
+
+```{r, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+#knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE)
+
+options(htmltools.dir.version = FALSE,
+        tibble.width = NULL)
+
+knitr::opts_chunk$set(collapse = TRUE,
+                      fig.retina = 3,
+                      fig.width = 10,
+                      out.width = 300, ### control plot size
+                      #cache = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "", 
+                      cache = FALSE)
+
+
+library(flipbookr)
+library(tidyverse)
+library(xaringan)
+library(xaringanthemer)
+library(xaringanExtra)
+library(here)
+library(countdown)
+library(rmarkdown)
+```
+
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+
+xaringanExtra::style_panelset_tabs(
+  active_foreground = "#0051BA",
+  hover_foreground = "#d22",
+  font_family = "Roboto"
+)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  #<<
+)
+```
+
+```{r}
+#| include: false
+#| echo: false
+library(rio)
+base_ind_transp <- import(here::here("datos/relevamiento_indice_transparencia_2024.xlsx"))
+base_viz <- import(here::here("datos/output_visualizaciones_2024-07-23.xlsx")) 
+```
+
+
+
+## ¿Qué vimos?
+
+<br>
+
+✅ Conceptos básicos de R
+
+<br>
+
+✅ Pensar un proyecto de datos con R
+
+<br>
+
+✅ Procesamiento de datos con `{tidyverse}`
+
+<br>
+
+✅ Visualización de datos con`{ggplot2}`
+
+
+---
+## Hoja de Ruta
+
+<br>
+
+- 📌️ ¿Qué es Rmarkdown (_spoiler: R + Mardown_)?
+
+<br>
+
+- 📌️ Conceptos básicos de Markdown
+
+<br>
+
+- 📌️ YAML, Chunks y texto
+
+
+---
+## Configuración para esta clase
+
+<br>
+
+-   Tener instalado (o instalar) el paquete `rmarkdown`:
+
+```
+install.packages("rmarkdown")
+```
+
+
+---
+## Flujo de trabajo para la Ciencia de Datos
+
+```{r echo=FALSE, out.width= '80%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/circuito_del_dato_tidy.png"))
+```
+
+
+---
+class: center, middle, logo-hide
+
+```{r echo=FALSE, out.width= '40%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/logo_rmarkdown.png"))
+```
+
+
+---
+## R + Rmarkdown
+
+<br>
+
+> Rmarkdown es un formato de Rstudio que permite combinar la **sintaxis de Markdown** para escritura de texto plano con la **sintáxis de R** para el procesamiento de datos.
+
+```{r echo=FALSE, out.width= '50%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmarkdown_proceso.png"))
+```
+
+
+---
+## Hasta ahora...
+
+```{r echo=FALSE, out.width= '35%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/informe_0.jpg"))
+```
+
+
+---
+## Hasta ahora...
+
+```{r echo=FALSE, out.width= '35%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/informe_1.jpg"))
+```
+
+---
+## Hasta ahora...
+
+```{r echo=FALSE, out.width= '35%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/informe_2.jpg"))
+```
+
+---
+## Hasta ahora...
+
+```{r echo=FALSE, out.width= '35%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/informe_3.jpg"))
+```
+
+---
+## Hasta ahora...
+
+```{r echo=FALSE, out.width= '35%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/informe_4.jpg"))
+```
+
+---
+## Hasta ahora...
+
+.pull-left[
+
+```{r echo=FALSE, out.width= '75%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/informe_5.jpg"))
+```
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, out.width= '75%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/you-shall-not-pass-gandalf.gif"))
+```
+
+]
+
+
+---
+## Desventajas del "hasta ahora..."
+
+- Decenas, cientos, miles de versiones. `informe_FINAL_FINAL_FINAL_V2_1.doc`
+
+--
+
+- I-rreproducible
+
+
+---
+## Desventajas del "hasta ahora..."
+
+
+- Decenas, cientos, miles de versiones. `informe_FINAL_FINAL_FINAL_V2_1.doc`
+
+- I-rreproducible
+
+.pull-left[
+
+- ¿Mismo informe con nuevos datos?
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, out.width= '55%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/no_de_nuevo_decia.png"))
+```
+
+]
+
+---
+## Rmarkdown
+
+.pull-left[
+
+#### Antes:
+
+```{r echo=FALSE, out.width= '85%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/r_word_markdown.png"))
+```
+
+]
+
+.pull-right[
+
+#### Después:
+
+```{r echo=FALSE, out.width= '130%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmardown_previz.png"))
+```
+
+]
+
+---
+## Rmarkdown - Formatos de salida
+
+```{r echo=FALSE, out.width= '40%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmarkdown_salidas.png"))
+```
+
+
+---
+## Rmarkdown - Nuevo archivo
+
+```{r echo=FALSE, out.width= '80%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmarkdown_nuevo_archivo.png"))
+```
+
+
+---
+## Rmarkdown - Componentes
+
+```{r echo=FALSE, out.width= '80%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmarkdown_tripartito.png"))
+```
+
+---
+# 1. YAML (metadata o encabezado)
+
+<br><br>
+
+```{r echo=FALSE, out.width= '100%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmarkdown_encabezado.png"))
+```
+
+
+---
+## 2. Chunk (o bloque de código)
+
+<br><br>
+
+```{r echo=FALSE, out.width= '100%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmd_bloque_de_codigo.png"))
+```
+
+
+---
+## 2. Chunk (o bloque de código)
+
+<br><br>
+
+```{r echo=FALSE, out.width= '100%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/chunk_radiografia_1.png"))
+```
+
+
+---
+## 2. Chunk (o bloque de código)
+
+<br><br>
+
+```{r echo=FALSE, out.width= '100%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/chunk_radiografia_2.png"))
+```
+
+---
+## 2. Chunk (o bloque de código)
+
+<br><br>
+
+```{r echo=FALSE, out.width= '100%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/chunk_radiografia_3.png"))
+```
+
+---
+## 2. Chunk (o bloque de código)
+
+```{r echo=FALSE, out.width= '100%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmd_bloque_de_codigo_v2.png"))
+```
+
+
+---
+## 2. Chunk (o bloque de código)
+
+| __Función__                     | __Acción__ |
+| :---                            | :---       |
+| `{r echo = FALSE}`              | *Muestra sólo resultado del chunk*|
+| `{r echo = TRUE}`               | *Muestra código y resultado del chunk*|
+| `{r eval = FALSE}`              | *Muestra código pero no ejecuta*|
+| `{r include = FALSE}`           | *No muestra nada (ni código ni resultado) pero ejecuta código*|
+| `{r eval = FALSE, include = FALSE}` | *No muestra nada (ni código ni resultado) - tampoco ejecuta*|
+
+
+---
+## 2. Chunk (o bloque de código)
+
+```{r echo=FALSE, out.width= '60%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/chunk_corro_uno.png"))
+```
+
+--
+
+```{r echo=FALSE, out.width= '60%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/chunk_corro_hasta_aca.png"))
+```
+
+
+---
+## 2. Chunk (o bloque de código)
+
+```{r echo=FALSE, out.width= '60%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/chunk_etiquetas.png"))
+```
+
+
+---
+# 3. Texto
+
+```{r echo=FALSE, out.width= '90%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/rmarkdown_codigo_salida.png"))
+```
+
+
+---
+## 3. Texto + código (en texto)
+
+```{r echo=FALSE, out.width= '90%', fig.align='center'}
+knitr::include_graphics(here::here("img/clase_4/codigo_en_texto.png"))
+```
+
+
+---
+class: center, middle, logo-hide
+# Práctica
+
+
+---
+## Práctica
+
+1) Crear un informe que contenga:
+
+- **En TEXTO:**
+  - Una estructura mínima de texto (Título, consigna, descripción de las tareas realizadas y muy breve conclusión)
+
+- **En CÓDIGO:**
+  - Carga de librerías (no mostrar el código en el reporte)
+  - Importación de datos (mostrar el código en el reporte)
+  - Algún procesamiento mínimo como filtrar, seleccionar, generar un tabulado, etc. (mostrar el código y el resultado en el reporte)
+
+- _Extra_: Incluir un gráfico
+
+
+---
+## RECURSOS
+
+- [Guía de comandos para texto en Rmarkdown](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf?_ga=2.157796986.1542626288.1625161001-1806201684.1624641897)
+
+- [Guía definitiva de Rmarkdown (en inglés)](https://bookdown.org/yihui/rmarkdown/)
+
+- [Machete Rmarkdown](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf)
+
+- [Cocina de Rmarkdown (en inglés)](https://bookdown.org/yihui/rmarkdown-cookbook/)
